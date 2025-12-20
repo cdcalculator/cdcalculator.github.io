@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Calculator - Convert Annual to Hourly & Monthly Pay | CD Calculator</title>
+    <meta name="description" content="Free salary calculator to convert between annual, monthly, weekly, and hourly pay rates. Calculate take-home pay after taxes and deductions.">
+    <meta name="keywords" content="salary calculator, hourly to annual, salary converter, paycheck calculator, take home pay">
+    <link rel="canonical" href="https://cdcalculator.github.io/salary-calculator.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Salary Calculator",
+      "applicationCategory": "FinanceApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Convert salary between different time periods and calculate take-home pay after taxes and deductions."
+    }
+    </script>
+</head>
+<body>
+    <div id="header"></div>
+    <div id="sidebar"></div>
+
+    <main class="main-content">
+        <div class="calculator-page">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <a href="all-calculators.html">Calculators</a> / <span>Salary Calculator</span>
+            </div>
+
+            <h1 class="page-title">Salary Calculator</h1>
+            <p class="page-description">Convert between salary periods and calculate your take-home pay after taxes and deductions.</p>
+
+            <div class="calculator-container">
+                <div class="calculator-card">
+                    <h2>Salary Information</h2>
+                    <div class="form-group">
+                        <label for="salaryAmount">Salary Amount ($)</label>
+                        <input type="number" id="salaryAmount" value="75000" min="0" step="1000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="salaryPeriod">Pay Period</label>
+                        <select id="salaryPeriod">
+                            <option value="annual">Annual</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="hourly">Hourly</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hoursPerWeek">Hours per Week</label>
+                        <input type="number" id="hoursPerWeek" value="40" min="1" max="168" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="workWeeks">Work Weeks per Year</label>
+                        <input type="number" id="workWeeks" value="52" min="1" max="52" step="1">
+                    </div>
+
+                    <h2>Deductions (Optional)</h2>
+                    <div class="form-group">
+                        <label for="taxRate">Tax Rate (%)</label>
+                        <input type="number" id="taxRate" value="25" min="0" max="50" step="0.5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="otherDeductions">Other Monthly Deductions ($)</label>
+                        <input type="number" id="otherDeductions" value="500" min="0" step="50">
+                        <small>401k, health insurance, etc.</small>
+                    </div>
+
+                    <button onclick="calculateSalary()" class="calculate-btn">Calculate Salary</button>
+                </div>
+
+                <div class="results-card" id="salaryResults" style="display: none;">
+                    <h2>Salary Breakdown</h2>
+                    <div class="result-item color-green">
+                        <span>Annual Salary:</span>
+                        <strong id="annualSalaryResult">$0</strong>
+                    </div>
+                    <div class="result-item color-blue">
+                        <span>Monthly Salary:</span>
+                        <strong id="monthlySalaryResult">$0</strong>
+                    </div>
+                    <div class="result-item color-purple">
+                        <span>Weekly Salary:</span>
+                        <strong id="weeklySalaryResult">$0</strong>
+                    </div>
+                    <div class="result-item color-yellow">
+                        <span>Hourly Rate:</span>
+                        <strong id="hourlyRateResult">$0</strong>
+                    </div>
+                    <div class="result-item color-pink">
+                        <span>Monthly Take-Home:</span>
+                        <strong id="takeHome">$0</strong>
+                    </div>
+                    <div class="result-item color-red">
+                        <span>Annual Take-Home:</span>
+                        <strong id="annualTakeHome">$0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-sections">
+                <div class="info-card">
+                    <h2>How to Use the Salary Calculator</h2>
+                    <ol>
+                        <li>Enter your salary amount</li>
+                        <li>Select your pay period (annual, monthly, weekly, or hourly)</li>
+                        <li>Specify hours worked per week (typically 40 for full-time)</li>
+                        <li>Enter number of work weeks per year (52 for year-round)</li>
+                        <li>Add your estimated tax rate percentage</li>
+                        <li>Include other monthly deductions like 401k or insurance</li>
+                        <li>Click Calculate to see salary in all time periods and take-home pay</li>
+                    </ol>
+                </div>
+
+                <div class="info-card">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Convert between annual, monthly, weekly, and hourly pay</li>
+                        <li>Calculate gross salary in all time periods</li>
+                        <li>Estimate take-home pay after taxes</li>
+                        <li>Include retirement and insurance deductions</li>
+                        <li>Adjust for different work schedules</li>
+                        <li>Compare job offers with different pay structures</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h2>About Salary Calculations</h2>
+                    <p>Understanding your salary in different time periods helps with budgeting and comparing job offers. The standard calculation assumes 40 hours per week and 52 weeks per year (2,080 hours annually), but you can adjust for part-time work, seasonal employment, or unpaid time off.</p>
+                    <p>Take-home pay is always less than gross salary due to taxes and deductions. Federal income tax, state tax, Social Security, Medicare, and voluntary deductions like 401k contributions all reduce your paycheck. This calculator provides estimates - actual take-home depends on your specific tax situation, filing status, and local tax rates. Consult a tax professional for precise calculations.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+</body>
+</html>

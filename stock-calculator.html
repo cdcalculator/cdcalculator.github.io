@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Investment Calculator - Calculate Returns & Gains | CD Calculator</title>
+    <meta name="description" content="Free stock investment calculator to calculate potential returns, capital gains, and total profit from stock investments including dividends.">
+    <meta name="keywords" content="stock calculator, stock investment, capital gains calculator, stock returns, investment calculator">
+    <link rel="canonical" href="https://cdcalculator.github.io/stock-calculator.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Stock Investment Calculator",
+      "applicationCategory": "FinanceApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Calculate stock investment returns including capital gains, dividends, and total return percentage."
+    }
+    </script>
+</head>
+<body>
+    <div id="header"></div>
+    <div id="sidebar"></div>
+
+    <main class="main-content">
+        <div class="calculator-page">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <a href="all-calculators.html">Calculators</a> / <span>Stock Calculator</span>
+            </div>
+
+            <h1 class="page-title">Stock Investment Calculator</h1>
+            <p class="page-description">Calculate your stock investment returns including capital gains and dividend income.</p>
+
+            <div class="calculator-container">
+                <div class="calculator-card">
+                    <h2>Purchase Details</h2>
+                    <div class="form-group">
+                        <label for="purchasePrice">Purchase Price per Share ($)</label>
+                        <input type="number" id="purchasePrice" value="100" min="0" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numShares">Number of Shares</label>
+                        <input type="number" id="numShares" value="100" min="1" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="purchaseCommission">Purchase Commission ($)</label>
+                        <input type="number" id="purchaseCommission" value="0" min="0" step="0.01">
+                    </div>
+
+                    <h2>Sale Details</h2>
+                    <div class="form-group">
+                        <label for="salePrice">Sale Price per Share ($)</label>
+                        <input type="number" id="salePrice" value="150" min="0" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="saleCommission">Sale Commission ($)</label>
+                        <input type="number" id="saleCommission" value="0" min="0" step="0.01">
+                    </div>
+
+                    <h2>Additional Income</h2>
+                    <div class="form-group">
+                        <label for="dividends">Total Dividends Received ($)</label>
+                        <input type="number" id="dividends" value="500" min="0" step="0.01">
+                    </div>
+
+                    <button onclick="calculateStock()" class="calculate-btn">Calculate Returns</button>
+                </div>
+
+                <div class="results-card" id="stockResults" style="display: none;">
+                    <h2>Investment Results</h2>
+                    <div class="result-item color-blue">
+                        <span>Total Investment:</span>
+                        <strong id="totalInvestment">$0</strong>
+                    </div>
+                    <div class="result-item color-green">
+                        <span>Total Return:</span>
+                        <strong id="totalReturn">$0</strong>
+                    </div>
+                    <div class="result-item color-purple">
+                        <span>Capital Gain/Loss:</span>
+                        <strong id="capitalGain">$0</strong>
+                    </div>
+                    <div class="result-item color-yellow">
+                        <span>Net Profit/Loss:</span>
+                        <strong id="netProfit">$0</strong>
+                    </div>
+                    <div class="result-item color-pink">
+                        <span>Return on Investment (ROI):</span>
+                        <strong id="roi">0%</strong>
+                    </div>
+                    <div class="result-item color-red">
+                        <span>Profit per Share:</span>
+                        <strong id="profitPerShare">$0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-sections">
+                <div class="info-card">
+                    <h2>How to Use the Stock Calculator</h2>
+                    <ol>
+                        <li>Enter the price per share you paid when purchasing</li>
+                        <li>Input the number of shares you bought</li>
+                        <li>Add any commission or fees paid at purchase</li>
+                        <li>Enter the sale price per share (actual or projected)</li>
+                        <li>Include any commission or fees for selling</li>
+                        <li>Add total dividends received while holding the stock</li>
+                        <li>Click Calculate to see your total returns and ROI</li>
+                    </ol>
+                </div>
+
+                <div class="info-card">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Calculate total investment amount</li>
+                        <li>Determine capital gains or losses</li>
+                        <li>Include dividend income in returns</li>
+                        <li>Account for trading commissions and fees</li>
+                        <li>Calculate return on investment (ROI)</li>
+                        <li>Show profit/loss per share breakdown</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h2>About Stock Investing</h2>
+                    <p>Stock investing involves buying shares of publicly traded companies with the goal of generating returns through capital appreciation and dividends. Capital gains occur when you sell stocks for more than you paid, while dividends are periodic payments companies make to shareholders from profits.</p>
+                    <p>Consider your investment timeline, risk tolerance, and diversification strategy. Long-term investing (1+ years) qualifies for lower capital gains tax rates. Dollar-cost averaging, buying regularly regardless of price, can reduce the impact of market volatility. Always research companies thoroughly and consider consulting a financial advisor for personalized guidance.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+</body>
+</html>

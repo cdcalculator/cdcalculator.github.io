@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lease Calculator - Calculate Car Lease Payments | CD Calculator</title>
+    <meta name="description" content="Free car lease calculator to estimate monthly lease payments. Calculate lease costs including down payment, residual value, and money factor.">
+    <meta name="keywords" content="lease calculator, car lease, auto lease, lease payment calculator, vehicle lease">
+    <link rel="canonical" href="https://cdcalculator.github.io/lease-calculator.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Lease Calculator",
+      "applicationCategory": "FinanceApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Calculate monthly car lease payments based on vehicle price, down payment, lease term, and money factor."
+    }
+    </script>
+</head>
+<body>
+    <div id="header"></div>
+    <div id="sidebar"></div>
+
+    <main class="main-content">
+        <div class="calculator-page">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <a href="all-calculators.html">Calculators</a> / <span>Lease Calculator</span>
+            </div>
+
+            <h1 class="page-title">Lease Calculator</h1>
+            <p class="page-description">Calculate your monthly car lease payment and total lease cost with detailed breakdown.</p>
+
+            <div class="calculator-container">
+                <div class="calculator-card">
+                    <h2>Vehicle Information</h2>
+                    <div class="form-group">
+                        <label for="vehiclePrice">Vehicle Price (MSRP) ($)</label>
+                        <input type="number" id="vehiclePrice" value="35000" min="0" step="500">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="downPayment">Down Payment ($)</label>
+                        <input type="number" id="downPayment" value="3000" min="0" step="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tradeIn">Trade-in Value ($)</label>
+                        <input type="number" id="tradeIn" value="0" min="0" step="100">
+                    </div>
+
+                    <h2>Lease Terms</h2>
+                    <div class="form-group">
+                        <label for="leaseTerm">Lease Term (months)</label>
+                        <input type="number" id="leaseTerm" value="36" min="12" max="60" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="moneyFactor">Money Factor</label>
+                        <input type="number" id="moneyFactor" value="0.00125" min="0" max="0.01" step="0.00001">
+                        <small>Typical range: 0.00100 - 0.00300</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="residualValue">Residual Value (%)</label>
+                        <input type="number" id="residualValue" value="60" min="0" max="100" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="salesTax">Sales Tax Rate (%)</label>
+                        <input type="number" id="salesTax" value="7" min="0" max="15" step="0.1">
+                    </div>
+
+                    <button onclick="calculateLease()" class="calculate-btn">Calculate Lease</button>
+                </div>
+
+                <div class="results-card" id="leaseResults" style="display: none;">
+                    <h2>Lease Payment Breakdown</h2>
+                    <div class="result-item color-green">
+                        <span>Monthly Lease Payment:</span>
+                        <strong id="monthlyLease">$0</strong>
+                    </div>
+                    <div class="result-item color-blue">
+                        <span>Depreciation Cost:</span>
+                        <strong id="depreciation">$0</strong>
+                    </div>
+                    <div class="result-item color-yellow">
+                        <span>Finance Charge:</span>
+                        <strong id="financeCharge">$0</strong>
+                    </div>
+                    <div class="result-item color-purple">
+                        <span>Sales Tax:</span>
+                        <strong id="taxAmount">$0</strong>
+                    </div>
+                    <div class="result-item color-pink">
+                        <span>Total Due at Signing:</span>
+                        <strong id="dueAtSigning">$0</strong>
+                    </div>
+                    <div class="result-item color-red">
+                        <span>Total Lease Cost:</span>
+                        <strong id="totalLeaseCost">$0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-sections">
+                <div class="info-card">
+                    <h2>How to Use the Lease Calculator</h2>
+                    <ol>
+                        <li>Enter the vehicle's MSRP (sticker price)</li>
+                        <li>Input your down payment and trade-in value if applicable</li>
+                        <li>Specify the lease term in months (typically 24, 36, or 48)</li>
+                        <li>Enter the money factor provided by the dealer</li>
+                        <li>Input the residual value percentage (usually 50-65%)</li>
+                        <li>Add your local sales tax rate</li>
+                        <li>Click Calculate to see your monthly payment and total cost</li>
+                    </ol>
+                </div>
+
+                <div class="info-card">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Calculate accurate monthly lease payments</li>
+                        <li>Break down depreciation and finance charges</li>
+                        <li>Include down payment and trade-in value</li>
+                        <li>Calculate sales tax on lease payments</li>
+                        <li>Show total due at signing</li>
+                        <li>Display total cost over lease term</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h2>About Car Leasing</h2>
+                    <p>Leasing a car means paying for the vehicle's depreciation during the lease term rather than the full purchase price. The money factor is similar to an interest rate (multiply by 2,400 to convert to APR), and the residual value represents what the car will be worth at lease end.</p>
+                    <p>Leasing typically requires lower monthly payments than buying, but you don't build equity. Consider factors like annual mileage limits, wear-and-tear charges, and whether you prefer driving a new car every few years versus long-term ownership.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+</body>
+</html>

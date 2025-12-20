@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refinance Calculator - Calculate Your Mortgage Refinance Savings | CD Calculator</title>
+    <meta name="description" content="Free refinance calculator to compare your current mortgage with refinancing options. Calculate monthly savings, break-even point, and total interest savings.">
+    <meta name="keywords" content="refinance calculator, mortgage refinance, refinance savings, break-even calculator, lower interest rate">
+    <link rel="canonical" href="https://cdcalculator.github.io/refinance-calculator.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Refinance Calculator",
+      "applicationCategory": "FinanceApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Calculate potential savings from refinancing your mortgage including monthly payment reduction and break-even analysis."
+    }
+    </script>
+</head>
+<body>
+    <div id="header"></div>
+    <div id="sidebar"></div>
+
+    <main class="main-content">
+        <div class="calculator-page">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <a href="all-calculators.html">Calculators</a> / <span>Refinance Calculator</span>
+            </div>
+
+            <h1 class="page-title">Refinance Calculator</h1>
+            <p class="page-description">Compare your current mortgage with refinancing options to determine potential savings and break-even point.</p>
+
+            <div class="calculator-container">
+                <div class="calculator-card">
+                    <h2>Current Mortgage Details</h2>
+                    <div class="form-group">
+                        <label for="currentBalance">Remaining Balance ($)</label>
+                        <input type="number" id="currentBalance" value="250000" min="0" step="1000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="currentRate">Current Interest Rate (%)</label>
+                        <input type="number" id="currentRate" value="5.5" min="0" max="20" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="remainingYears">Remaining Term (years)</label>
+                        <input type="number" id="remainingYears" value="25" min="1" max="40" step="1">
+                    </div>
+
+                    <h2>New Mortgage Details</h2>
+                    <div class="form-group">
+                        <label for="newRate">New Interest Rate (%)</label>
+                        <input type="number" id="newRate" value="4.0" min="0" max="20" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newTerm">New Term (years)</label>
+                        <input type="number" id="newTerm" value="30" min="1" max="40" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="closingCosts">Closing Costs ($)</label>
+                        <input type="number" id="closingCosts" value="5000" min="0" step="100">
+                    </div>
+
+                    <button onclick="calculateRefinance()" class="calculate-btn">Calculate Refinance</button>
+                </div>
+
+                <div class="results-card" id="refinanceResults" style="display: none;">
+                    <h2>Refinance Analysis</h2>
+                    <div class="result-item color-blue">
+                        <span>Current Monthly Payment:</span>
+                        <strong id="currentPayment">$0</strong>
+                    </div>
+                    <div class="result-item color-green">
+                        <span>New Monthly Payment:</span>
+                        <strong id="newPayment">$0</strong>
+                    </div>
+                    <div class="result-item color-purple">
+                        <span>Monthly Savings:</span>
+                        <strong id="monthlySavings">$0</strong>
+                    </div>
+                    <div class="result-item color-red">
+                        <span>Break-Even Point:</span>
+                        <strong id="breakEven">0 months</strong>
+                    </div>
+                    <div class="result-item color-yellow">
+                        <span>Total Interest (Current):</span>
+                        <strong id="currentInterest">$0</strong>
+                    </div>
+                    <div class="result-item color-pink">
+                        <span>Total Interest (New):</span>
+                        <strong id="newInterest">$0</strong>
+                    </div>
+                    <div class="result-item color-green">
+                        <span>Total Interest Savings:</span>
+                        <strong id="interestSavings">$0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-sections">
+                <div class="info-card">
+                    <h2>How to Use the Refinance Calculator</h2>
+                    <ol>
+                        <li>Enter your current mortgage remaining balance</li>
+                        <li>Input your current interest rate and remaining term</li>
+                        <li>Enter the new interest rate you've been quoted</li>
+                        <li>Specify the new loan term you're considering</li>
+                        <li>Add estimated closing costs for refinancing</li>
+                        <li>Click Calculate to see your potential savings and break-even point</li>
+                    </ol>
+                </div>
+
+                <div class="info-card">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Compare current vs. new monthly payments</li>
+                        <li>Calculate monthly savings from refinancing</li>
+                        <li>Determine break-even point including closing costs</li>
+                        <li>Analyze total interest savings over loan term</li>
+                        <li>Support for different loan terms</li>
+                        <li>Instant calculation with real-time updates</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h2>About Mortgage Refinancing</h2>
+                    <p>Mortgage refinancing involves replacing your current home loan with a new one, typically to secure a lower interest rate, reduce monthly payments, or change the loan term. The break-even point is the time it takes for your monthly savings to offset the refinancing costs.</p>
+                    <p>Consider refinancing when interest rates drop significantly, your credit score has improved, or you want to switch from an adjustable-rate to a fixed-rate mortgage. Calculate whether the long-term savings justify the upfront costs before proceeding.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer"></div>
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+</body>
+</html>
