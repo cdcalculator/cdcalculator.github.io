@@ -29,25 +29,266 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.jpg">
     
     <!-- Schema Markup -->
+    <!-- Schema Markup - Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "CD Calculator",
+      "url": "https://cdcalculator.github.io/",
+      "logo": "https://cdcalculator.github.io/logo.svg",
+      "description": "Providing free financial calculators and tools to help users make informed money decisions",
+      "sameAs": [
+        "https://twitter.com/cdcalculator",
+        "https://facebook.com/cdcalculator",
+        "https://linkedin.com/company/cdcalculator"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Support",
+        "email": "support@cdcalculator.com"
+      }
+    }
+    </script>
+    
+    <!-- Schema Markup - WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "CD Calculator",
+      "url": "https://cdcalculator.github.io/",
+      "description": "Free financial calculators and tools for smart money decisions",
+      "publisher": {
+        "@type": "Organization",
+        "name": "CD Calculator",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://cdcalculator.github.io/logo.svg"
+        }
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://cdcalculator.github.io/all-calculators.html?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <!-- Schema Markup - WebApplication -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "CD Calculator",
       "url": "https://cdcalculator.github.io/",
-      "description": "Free financial calculators and tools for smart money decisions",
+      "description": "Access 20+ free financial calculators including mortgage, loan, investment, retirement, CD, and savings calculators. Make informed financial decisions with our easy-to-use tools.",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "1250"
-      }
+      "featureList": [
+        "Mortgage Calculator",
+        "Loan Calculator",
+        "Investment Calculator",
+        "Retirement Calculator",
+        "CD Calculator",
+        "Savings Calculator",
+        "Compound Interest Calculator",
+        "Auto Loan Calculator",
+        "Budget Calculator",
+        "Credit Card Payoff Calculator",
+        "ROI Calculator",
+        "Student Loan Calculator",
+        "Tax Calculator",
+        "Debt-to-Income Calculator",
+        "Refinance Calculator",
+        "Debt Payoff Calculator",
+        "APR Calculator",
+        "Lease Calculator",
+        "Home Affordability Calculator",
+        "Rent vs Buy Calculator",
+        "401k Calculator",
+        "Stock Calculator",
+        "Salary Calculator"
+      ]
+    }
+    </script>
+    
+    <!-- Schema Markup - ItemList for Calculators -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Financial Calculators",
+      "description": "Complete list of free financial calculators available on CD Calculator",
+      "numberOfItems": 20,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "url": "https://cdcalculator.github.io/cdcalculator.html",
+          "name": "Certificate of Deposit Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "url": "https://cdcalculator.github.io/mortgage-calculator.html",
+          "name": "Mortgage Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "url": "https://cdcalculator.github.io/loan-calculator.html",
+          "name": "Loan Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "url": "https://cdcalculator.github.io/investment-calculator.html",
+          "name": "Investment Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "url": "https://cdcalculator.github.io/savings-calculator.html",
+          "name": "Savings Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "url": "https://cdcalculator.github.io/retirement-calculator.html",
+          "name": "Retirement Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "url": "https://cdcalculator.github.io/compound-interest-calculator.html",
+          "name": "Compound Interest Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "url": "https://cdcalculator.github.io/auto-loan-calculator.html",
+          "name": "Auto Loan Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "url": "https://cdcalculator.github.io/budget-calculator.html",
+          "name": "Budget Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "url": "https://cdcalculator.github.io/credit-card-calculator.html",
+          "name": "Credit Card Payoff Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "url": "https://cdcalculator.github.io/roi-calculator.html",
+          "name": "ROI Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "url": "https://cdcalculator.github.io/student-loan-calculator.html",
+          "name": "Student Loan Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "url": "https://cdcalculator.github.io/tax-calculator.html",
+          "name": "Tax Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "url": "https://cdcalculator.github.io/debt-income-calculator.html",
+          "name": "Debt-to-Income Ratio Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "url": "https://cdcalculator.github.io/refinance-calculator.html",
+          "name": "Refinance Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "url": "https://cdcalculator.github.io/debt-payoff-calculator.html",
+          "name": "Debt Payoff Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "url": "https://cdcalculator.github.io/apr-calculator.html",
+          "name": "APR Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "url": "https://cdcalculator.github.io/lease-calculator.html",
+          "name": "Lease Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "url": "https://cdcalculator.github.io/home-affordability-calculator.html",
+          "name": "Home Affordability Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "url": "https://cdcalculator.github.io/rent-vs-buy-calculator.html",
+          "name": "Rent vs Buy Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "url": "https://cdcalculator.github.io/401k-calculator.html",
+          "name": "401k Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 22,
+          "url": "https://cdcalculator.github.io/stock-calculator.html",
+          "name": "Stock Calculator"
+        },
+        {
+          "@type": "ListItem",
+          "position": 23,
+          "url": "https://cdcalculator.github.io/salary-calculator.html",
+          "name": "Salary Calculator"
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Schema Markup - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://cdcalculator.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "All Calculators",
+          "item": "https://cdcalculator.github.io/all-calculators.html"
+        }
+      ]
     }
     </script>
     
