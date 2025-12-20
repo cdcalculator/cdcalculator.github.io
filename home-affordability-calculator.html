@@ -4,149 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Affordability Calculator - How Much House Can I Afford? | CD Calculator</title>
-    <meta name="description" content="Free home affordability calculator to determine how much house you can afford based on income, debts, down payment, and interest rate.">
-    <meta name="keywords" content="home affordability calculator, how much house can I afford, home buying calculator, mortgage affordability">
+    <meta name="description" content="Free home affordability calculator. Determine how much house you can afford based on income, debts, and down payment.">
+    <meta name="keywords" content="home affordability calculator, house affordability, how much house can i afford, home budget calculator">
     <link rel="canonical" href="https://cdcalculator.github.io/home-affordability-calculator.html">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
     
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
+      "@type": "SoftwareApplication",
       "name": "Home Affordability Calculator",
       "applicationCategory": "FinanceApplication",
+      "description": "Calculate how much house you can afford based on your income, debts, and financial situation. Get realistic home price ranges.",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Calculate how much home you can afford based on your income, monthly debts, down payment, and current mortgage rates."
+      "featureList": "DTI ratio calculation, Income-based limits, Monthly payment estimate, Price range recommendation"
     }
     </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="header"></div>
-    <div id="sidebar"></div>
-
-    <main class="main-content">
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
         <div class="calculator-page">
-            <div class="breadcrumb">
-                <a href="index.html">Home</a> / <a href="all-calculators.html">Calculators</a> / <span>Home Affordability Calculator</span>
+            <div class="calculator-header">
+                <h1 class="calculator-title">HOME AFFORDABILITY CALCULATOR</h1>
+                <p class="calculator-description">Find out how much house you can afford</p>
             </div>
-
-            <h1 class="page-title">Home Affordability Calculator</h1>
-            <p class="page-description">Determine how much house you can afford based on your financial situation.</p>
-
-            <div class="calculator-container">
-                <div class="calculator-card">
-                    <h2>Income Information</h2>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
                     <div class="form-group">
                         <label for="annualIncome">Annual Gross Income ($)</label>
                         <input type="number" id="annualIncome" value="75000" min="0" step="1000">
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="monthlyDebts">Monthly Debt Payments ($)</label>
                         <input type="number" id="monthlyDebts" value="500" min="0" step="50">
-                        <small>Car loans, student loans, credit cards, etc.</small>
                     </div>
-
-                    <h2>Loan Details</h2>
+                    
                     <div class="form-group">
-                        <label for="affordDownPayment">Down Payment ($)</label>
-                        <input type="number" id="affordDownPayment" value="40000" min="0" step="1000">
+                        <label for="downPayment">Down Payment ($)</label>
+                        <input type="number" id="downPayment" value="40000" min="0" step="1000">
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="affordInterestRate">Interest Rate (%)</label>
-                        <input type="number" id="affordInterestRate" value="6.5" min="0" max="20" step="0.1">
+                        <label for="interestRate">Mortgage Interest Rate (%)</label>
+                        <input type="number" id="interestRate" value="6.5" min="0" max="15" step="0.125">
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="affordLoanTerm">Loan Term (years)</label>
-                        <input type="number" id="affordLoanTerm" value="30" min="10" max="40" step="5">
+                        <label for="loanTerm">Loan Term (years)</label>
+                        <select id="loanTerm">
+                            <option value="15">15 years</option>
+                            <option value="20">20 years</option>
+                            <option value="30" selected>30 years</option>
+                        </select>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="propertyTax">Annual Property Tax ($)</label>
                         <input type="number" id="propertyTax" value="3000" min="0" step="100">
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="homeInsurance">Annual Home Insurance ($)</label>
                         <input type="number" id="homeInsurance" value="1200" min="0" step="100">
                     </div>
-
-                    <button onclick="calculateAffordability()" class="calculate-btn">Calculate Affordability</button>
+                    
+                    <button class="calculate-button" onclick="calculateAffordability()">CALCULATE</button>
                 </div>
-
-                <div class="results-card" id="affordabilityResults" style="display: none;">
-                    <h2>Home Affordability Results</h2>
-                    <div class="result-item color-green">
-                        <span>Maximum Home Price:</span>
-                        <strong id="maxHomePrice">$0</strong>
+                
+                <div class="calculator-results" id="results">
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Max Home Price</div>
+                        <div class="result-value" id="maxHomePrice">$0</div>
                     </div>
-                    <div class="result-item color-blue">
-                        <span>Recommended Home Price:</span>
-                        <strong id="recommendedPrice">$0</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Monthly Payment</div>
+                        <div class="result-value" id="monthlyPayment">$0</div>
                     </div>
-                    <div class="result-item color-purple">
-                        <span>Monthly Mortgage Payment:</span>
-                        <strong id="affordMonthlyPayment">$0</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">DTI Ratio</div>
+                        <div class="result-value" id="dtiRatio">0%</div>
                     </div>
-                    <div class="result-item color-yellow">
-                        <span>Total Monthly Payment (PITI):</span>
-                        <strong id="totalMonthlyPayment">$0</strong>
-                    </div>
-                    <div class="result-item color-pink">
-                        <span>Debt-to-Income Ratio:</span>
-                        <strong id="dtiRatio">0%</strong>
-                    </div>
-                    <div class="result-item color-red">
-                        <span>Required Annual Income:</span>
-                        <strong id="requiredIncome">$0</strong>
+                    
+                    <div class="result-breakdown">
+                        <h3>Affordability Breakdown</h3>
+                        <div class="breakdown-item">
+                            <span>Comfortable Price:</span>
+                            <span id="comfortablePrice">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Loan Amount:</span>
+                            <span id="loanAmount">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Housing Payment:</span>
+                            <span id="housingPayment">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Qualification Status:</span>
+                            <span id="qualification">-</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
+            
             <div class="info-sections">
-                <div class="info-card">
+                <div class="info-card" style="--card-color: var(--color-blue)">
                     <h2>How to Use the Home Affordability Calculator</h2>
                     <ol>
-                        <li>Enter your total annual gross income (before taxes)</li>
-                        <li>Input your monthly debt payments (car, student loans, credit cards)</li>
-                        <li>Specify your available down payment amount</li>
-                        <li>Enter the current mortgage interest rate</li>
-                        <li>Choose your preferred loan term</li>
-                        <li>Add estimated property tax and home insurance costs</li>
-                        <li>Click Calculate to see how much home you can afford</li>
+                        <li>Enter your total annual gross income</li>
+                        <li>Input all monthly debt payments (car loans, student loans, credit cards)</li>
+                        <li>Enter your available down payment amount</li>
+                        <li>Add current mortgage interest rates</li>
+                        <li>Select your desired loan term</li>
+                        <li>Include estimated property tax and home insurance</li>
+                        <li>Click "Calculate" to see your affordable price range</li>
                     </ol>
                 </div>
-
-                <div class="info-card">
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
                     <h2>Features</h2>
                     <ul>
-                        <li>Calculate maximum affordable home price</li>
-                        <li>Get conservative recommendation (28% rule)</li>
-                        <li>See complete PITI payment breakdown</li>
-                        <li>Calculate debt-to-income ratio</li>
-                        <li>Include property taxes and insurance</li>
-                        <li>Determine required income for target home</li>
+                        <li>Maximum home price calculation</li>
+                        <li>DTI (Debt-to-Income) ratio analysis</li>
+                        <li>Comfortable price range recommendation</li>
+                        <li>Monthly payment breakdown</li>
+                        <li>Property tax and insurance inclusion</li>
+                        <li>Lender qualification assessment</li>
                     </ul>
                 </div>
-
-                <div class="info-card">
-                    <h2>About Home Affordability</h2>
-                    <p>The 28/36 rule is a common guideline: your housing payment shouldn't exceed 28% of gross monthly income, and total debt shouldn't exceed 36%. Lenders use debt-to-income (DTI) ratios to determine loan approval, with most requiring DTI below 43%.</p>
-                    <p>Consider all costs including principal, interest, property taxes, insurance (PITI), HOA fees, maintenance, and utilities. A conservative approach ensures you can comfortably afford your home while maintaining financial flexibility for other goals and emergencies.</p>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>Understanding Home Affordability</h2>
+                    <p>Lenders typically use the 28/36 rule to determine home affordability. Your housing payment (including principal, interest, taxes, and insurance) should not exceed 28% of your gross monthly income, and your total debt payments should stay below 36%.</p>
+                    <p>Your debt-to-income (DTI) ratio is crucial for mortgage approval. A lower DTI gives you better loan terms and interest rates. Most lenders prefer DTI below 43%, though some programs allow higher ratios with compensating factors like larger down payments.</p>
+                    <p>While lenders may approve you for a certain amount, consider your comfort level and other financial goals. Save 3-6 months of expenses, factor in maintenance costs (1-2% of home value annually), and don't forget closing costs (2-5% of purchase price).</p>
                 </div>
             </div>
         </div>
     </main>
-
-    <div id="footer"></div>
+    
+    <div id="footer-container"></div>
+    
     <script src="app.js"></script>
     <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateAffordability();
+    </script>
 </body>
 </html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>401(k) Calculator - Retirement Savings Calculator | CD Calculator</title>
+    <meta name="description" content="Free 401(k) calculator. Calculate your retirement savings growth with employer matching and see your 401k balance at retirement.">
+    <meta name="keywords" content="401k calculator, 401(k) calculator, retirement calculator, employer match calculator, 401k savings">
+    <link rel="canonical" href="https://cdcalculator.github.io/401k-calculator.html">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "401(k) Retirement Calculator",
+      "applicationCategory": "FinanceApplication",
+      "description": "Calculate 401(k) retirement savings with employer matching. See how your contributions grow over time with compound interest.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Employer match calculation, Contribution limits, Tax advantages, Retirement balance projection"
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
+        <div class="calculator-page">
+            <div class="calculator-header">
+                <h1 class="calculator-title">401(K) CALCULATOR</h1>
+                <p class="calculator-description">Calculate your 401(k) retirement savings growth</p>
+            </div>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="currentAge">Current Age</label>
+                        <input type="number" id="currentAge" value="30" min="18" max="100" step="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="retirementAge">Retirement Age</label>
+                        <input type="number" id="retirementAge" value="65" min="50" max="80" step="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="currentBalance">Current 401(k) Balance ($)</label>
+                        <input type="number" id="currentBalance" value="50000" min="0" step="1000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="annualSalary">Annual Salary ($)</label>
+                        <input type="number" id="annualSalary" value="75000" min="0" step="1000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contribution">Your Contribution (%)</label>
+                        <input type="number" id="contribution" value="6" min="0" max="100" step="0.5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="employerMatch">Employer Match (%)</label>
+                        <input type="number" id="employerMatch" value="50" min="0" max="200" step="5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="matchLimit">Match Limit (% of salary)</label>
+                        <input type="number" id="matchLimit" value="6" min="0" max="15" step="0.5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="returnRate">Expected Return Rate (%)</label>
+                        <input type="number" id="returnRate" value="8" min="0" max="15" step="0.5">
+                    </div>
+                    
+                    <button class="calculate-button" onclick="calculate401k()">CALCULATE</button>
+                </div>
+                
+                <div class="calculator-results" id="results">
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Balance at Retirement</div>
+                        <div class="result-value" id="retirementBalance">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Total Contributions</div>
+                        <div class="result-value" id="totalContributions">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">Employer Match Total</div>
+                        <div class="result-value" id="employerMatchTotal">$0</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <h3>401(k) Breakdown</h3>
+                        <div class="breakdown-item">
+                            <span>Investment Gains:</span>
+                            <span id="investmentGains">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Annual Contribution:</span>
+                            <span id="annualContribution">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Years to Retirement:</span>
+                            <span id="yearsToRetirement">0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Free Employer Money:</span>
+                            <span id="freeEmployerMoney">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-sections">
+                <div class="info-card" style="--card-color: var(--color-blue)">
+                    <h2>How to Use the 401(k) Calculator</h2>
+                    <ol>
+                        <li>Enter your current age and planned retirement age</li>
+                        <li>Input your current 401(k) balance if you have one</li>
+                        <li>Add your current annual salary</li>
+                        <li>Enter your contribution percentage</li>
+                        <li>Input your employer's match percentage and limit</li>
+                        <li>Set a realistic expected return rate (7-10% is typical)</li>
+                        <li>Click "Calculate" to see your retirement balance</li>
+                    </ol>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Employer match calculation</li>
+                        <li>Compound growth projection</li>
+                        <li>Total contribution tracking</li>
+                        <li>Investment gains analysis</li>
+                        <li>Years to retirement countdown</li>
+                        <li>Free employer money calculation</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>Understanding 401(k) Plans</h2>
+                    <p>A 401(k) is an employer-sponsored retirement plan that allows you to save and invest pre-tax dollars. Contributions reduce your taxable income, and investments grow tax-deferred until withdrawal in retirement. Many employers offer matching contributions, which is essentially free money.</p>
+                    <p>Employer matching is powerful. A common match is 50% of your contributions up to 6% of salary. If you contribute 6%, your employer adds 3%, giving you a 50% instant return on investment. Always contribute enough to get the full match.</p>
+                    <p>For 2024, contribution limits are $23,000 ($30,500 if age 50+). Start early to maximize compound growth - investing $500/month starting at age 25 can grow to over $1.5 million by age 65 with 8% returns. Even small increases in contributions can significantly impact your retirement nest egg.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculate401k();
+    </script>
+</body>
+</html>

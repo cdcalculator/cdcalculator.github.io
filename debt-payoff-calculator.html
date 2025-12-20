@@ -3,132 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Debt Payoff Calculator - Plan Your Path to Debt Freedom | CD Calculator</title>
-    <meta name="description" content="Free debt payoff calculator to create a strategic plan for eliminating debt. Compare debt avalanche vs snowball methods and calculate payoff timeline.">
-    <meta name="keywords" content="debt payoff calculator, debt elimination, debt snowball, debt avalanche, get out of debt">
+    <title>Debt Payoff Calculator - Create Your Debt Freedom Plan | CD Calculator</title>
+    <meta name="description" content="Free debt payoff calculator. Create a strategic plan to pay off multiple debts using snowball or avalanche methods.">
+    <meta name="keywords" content="debt payoff calculator, debt snowball, debt avalanche, debt freedom calculator, pay off debt calculator">
     <link rel="canonical" href="https://cdcalculator.github.io/debt-payoff-calculator.html">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
     
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
+      "@type": "SoftwareApplication",
       "name": "Debt Payoff Calculator",
       "applicationCategory": "FinanceApplication",
+      "description": "Calculate debt payoff timeline and compare snowball vs avalanche strategies. Create a personalized debt elimination plan.",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Calculate how long it will take to pay off your debt and how much interest you'll pay with different payment strategies."
+      "featureList": "Snowball method, Avalanche method, Timeline projection, Interest savings comparison"
     }
     </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="header"></div>
-    <div id="sidebar"></div>
-
-    <main class="main-content">
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
         <div class="calculator-page">
-            <div class="breadcrumb">
-                <a href="index.html">Home</a> / <a href="all-calculators.html">Calculators</a> / <span>Debt Payoff Calculator</span>
+            <div class="calculator-header">
+                <h1 class="calculator-title">DEBT PAYOFF CALCULATOR</h1>
+                <p class="calculator-description">Create your personalized debt elimination strategy</p>
             </div>
-
-            <h1 class="page-title">Debt Payoff Calculator</h1>
-            <p class="page-description">Create a strategic plan to eliminate your debt faster and save on interest payments.</p>
-
-            <div class="calculator-container">
-                <div class="calculator-card">
-                    <h2>Debt Information</h2>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
                     <div class="form-group">
                         <label for="totalDebt">Total Debt Amount ($)</label>
-                        <input type="number" id="totalDebt" value="15000" min="0" step="100">
+                        <input type="number" id="totalDebt" value="30000" min="0" step="100">
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="debtRate">Average Interest Rate (%)</label>
-                        <input type="number" id="debtRate" value="18" min="0" max="50" step="0.1">
+                        <label for="avgInterest">Average Interest Rate (%)</label>
+                        <input type="number" id="avgInterest" value="18" min="0" max="30" step="0.5">
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="minPayment">Minimum Monthly Payment ($)</label>
-                        <input type="number" id="minPayment" value="300" min="0" step="10">
+                        <label for="monthlyPayment">Monthly Payment ($)</label>
+                        <input type="number" id="monthlyPayment" value="800" min="0" step="50">
                     </div>
-
+                    
+                    <div class="form-group">
+                        <label for="payoffMethod">Payoff Strategy</label>
+                        <select id="payoffMethod">
+                            <option value="avalanche">Avalanche (Highest Interest First)</option>
+                            <option value="snowball">Snowball (Smallest Balance First)</option>
+                        </select>
+                    </div>
+                    
                     <div class="form-group">
                         <label for="extraPayment">Extra Monthly Payment ($)</label>
-                        <input type="number" id="extraPayment" value="200" min="0" step="10">
+                        <input type="number" id="extraPayment" value="0" min="0" step="50">
                     </div>
-
-                    <button onclick="calculateDebtPayoff()" class="calculate-btn">Calculate Payoff Plan</button>
+                    
+                    <button class="calculate-button" onclick="calculateDebtPayoff()">CALCULATE</button>
                 </div>
-
-                <div class="results-card" id="debtResults" style="display: none;">
-                    <h2>Payoff Analysis</h2>
-                    <div class="result-item color-red">
-                        <span>With Minimum Payment Only:</span>
-                        <strong id="minPayoffTime">0 months</strong>
+                
+                <div class="calculator-results" id="results">
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Payoff Time</div>
+                        <div class="result-value" id="payoffTime">0 months</div>
                     </div>
-                    <div class="result-item color-yellow">
-                        <span>Interest Paid (Min Payment):</span>
-                        <strong id="minInterest">$0</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-red)">
+                        <div class="result-label">Total Interest</div>
+                        <div class="result-value" id="totalInterest">$0</div>
                     </div>
-                    <div class="result-item color-green">
-                        <span>With Extra Payment:</span>
-                        <strong id="extraPayoffTime">0 months</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Total Paid</div>
+                        <div class="result-value" id="totalPaid">$0</div>
                     </div>
-                    <div class="result-item color-blue">
-                        <span>Interest Paid (Extra Payment):</span>
-                        <strong id="extraInterest">$0</strong>
-                    </div>
-                    <div class="result-item color-purple">
-                        <span>Time Saved:</span>
-                        <strong id="timeSaved">0 months</strong>
-                    </div>
-                    <div class="result-item color-pink">
-                        <span>Interest Saved:</span>
-                        <strong id="interestSaved">$0</strong>
+                    
+                    <div class="result-breakdown">
+                        <h3>Debt Freedom Plan</h3>
+                        <div class="breakdown-item">
+                            <span>Debt-Free Date:</span>
+                            <span id="debtFreeDate">-</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Interest Saved:</span>
+                            <span id="interestSaved">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Strategy:</span>
+                            <span id="strategy">-</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Progress:</span>
+                            <span id="progress">Starting</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
+            
             <div class="info-sections">
-                <div class="info-card">
+                <div class="info-card" style="--card-color: var(--color-blue)">
                     <h2>How to Use the Debt Payoff Calculator</h2>
                     <ol>
-                        <li>Enter your total debt amount across all accounts</li>
-                        <li>Input the average interest rate of your debts</li>
-                        <li>Enter your current minimum monthly payment</li>
-                        <li>Add any extra amount you can pay monthly</li>
-                        <li>Click Calculate to see how much faster you can become debt-free</li>
-                        <li>Compare the scenarios to understand your potential savings</li>
+                        <li>Enter your total outstanding debt amount</li>
+                        <li>Input the average interest rate across all debts</li>
+                        <li>Enter your current monthly debt payment</li>
+                        <li>Choose your preferred payoff strategy (Avalanche or Snowball)</li>
+                        <li>Add any extra payment you can afford monthly</li>
+                        <li>Click "Calculate" to see your debt-free timeline</li>
                     </ol>
                 </div>
-
-                <div class="info-card">
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
                     <h2>Features</h2>
                     <ul>
-                        <li>Compare minimum payment vs. accelerated payoff</li>
-                        <li>Calculate total interest paid in each scenario</li>
-                        <li>Determine time saved with extra payments</li>
-                        <li>Show interest savings from faster payoff</li>
-                        <li>Simple interface for debt planning</li>
-                        <li>Motivational payoff timeline visualization</li>
+                        <li>Snowball vs Avalanche method comparison</li>
+                        <li>Debt-free date projection</li>
+                        <li>Total interest calculation</li>
+                        <li>Impact of extra payments</li>
+                        <li>Interest savings calculation</li>
+                        <li>Personalized payoff timeline</li>
                     </ul>
                 </div>
-
-                <div class="info-card">
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
                     <h2>About Debt Payoff Strategies</h2>
-                    <p>Paying off debt strategically can save thousands in interest and help you achieve financial freedom faster. The two popular methods are the Debt Avalanche (paying off highest interest rate first) and Debt Snowball (paying off smallest balance first).</p>
-                    <p>Making extra payments, even small amounts, can dramatically reduce your payoff time and total interest paid. Consider cutting expenses, using windfalls, or earning extra income to accelerate your debt elimination journey.</p>
+                    <p>The Debt Avalanche method focuses on paying off debts with the highest interest rates first while making minimum payments on others. This strategy saves the most money in interest charges and is mathematically the fastest way to become debt-free.</p>
+                    <p>The Debt Snowball method targets the smallest debts first, providing quick wins and psychological motivation. While it may cost slightly more in interest, many people find this approach more motivating as they see debts eliminated quickly.</p>
+                    <p>Making extra payments, even small amounts, can dramatically reduce your payoff timeline and save thousands in interest. Consistency is key - choose a strategy that matches your personality and stick with it until you're debt-free.</p>
                 </div>
             </div>
         </div>
     </main>
-
-    <div id="footer"></div>
+    
+    <div id="footer-container"></div>
+    
     <script src="app.js"></script>
     <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateDebtPayoff();
+    </script>
 </body>
 </html>

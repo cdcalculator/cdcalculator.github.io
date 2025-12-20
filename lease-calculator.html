@@ -3,150 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lease Calculator - Calculate Car Lease Payments | CD Calculator</title>
-    <meta name="description" content="Free car lease calculator to estimate monthly lease payments. Calculate lease costs including down payment, residual value, and money factor.">
-    <meta name="keywords" content="lease calculator, car lease, auto lease, lease payment calculator, vehicle lease">
+    <title>Car Lease Calculator - Calculate Lease Payments | CD Calculator</title>
+    <meta name="description" content="Free car lease calculator. Calculate monthly lease payments, total cost, and compare leasing vs buying options.">
+    <meta name="keywords" content="lease calculator, car lease calculator, auto lease calculator, lease payment calculator, lease vs buy">
     <link rel="canonical" href="https://cdcalculator.github.io/lease-calculator.html">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
     
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Lease Calculator",
+      "@type": "SoftwareApplication",
+      "name": "Car Lease Calculator",
       "applicationCategory": "FinanceApplication",
+      "description": "Calculate car lease payments including money factor, depreciation, and fees. Compare total lease costs.",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Calculate monthly car lease payments based on vehicle price, down payment, lease term, and money factor."
+      "featureList": "Monthly payment calculation, Depreciation analysis, Money factor conversion, Total lease cost"
     }
     </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="header"></div>
-    <div id="sidebar"></div>
-
-    <main class="main-content">
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
         <div class="calculator-page">
-            <div class="breadcrumb">
-                <a href="index.html">Home</a> / <a href="all-calculators.html">Calculators</a> / <span>Lease Calculator</span>
+            <div class="calculator-header">
+                <h1 class="calculator-title">LEASE CALCULATOR</h1>
+                <p class="calculator-description">Calculate your monthly car lease payments</p>
             </div>
-
-            <h1 class="page-title">Lease Calculator</h1>
-            <p class="page-description">Calculate your monthly car lease payment and total lease cost with detailed breakdown.</p>
-
-            <div class="calculator-container">
-                <div class="calculator-card">
-                    <h2>Vehicle Information</h2>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
                     <div class="form-group">
-                        <label for="vehiclePrice">Vehicle Price (MSRP) ($)</label>
-                        <input type="number" id="vehiclePrice" value="35000" min="0" step="500">
+                        <label for="msrp">Vehicle MSRP ($)</label>
+                        <input type="number" id="msrp" value="35000" min="0" step="100">
                     </div>
-
+                    
+                    <div class="form-group">
+                        <label for="salePrice">Negotiated Sale Price ($)</label>
+                        <input type="number" id="salePrice" value="33000" min="0" step="100">
+                    </div>
+                    
                     <div class="form-group">
                         <label for="downPayment">Down Payment ($)</label>
-                        <input type="number" id="downPayment" value="3000" min="0" step="100">
+                        <input type="number" id="downPayment" value="2000" min="0" step="100">
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="tradeIn">Trade-in Value ($)</label>
-                        <input type="number" id="tradeIn" value="0" min="0" step="100">
+                        <label for="residualPercent">Residual Value (%)</label>
+                        <input type="number" id="residualPercent" value="60" min="0" max="100" step="1">
                     </div>
-
-                    <h2>Lease Terms</h2>
-                    <div class="form-group">
-                        <label for="leaseTerm">Lease Term (months)</label>
-                        <input type="number" id="leaseTerm" value="36" min="12" max="60" step="1">
-                    </div>
-
+                    
                     <div class="form-group">
                         <label for="moneyFactor">Money Factor</label>
                         <input type="number" id="moneyFactor" value="0.00125" min="0" max="0.01" step="0.00001">
-                        <small>Typical range: 0.00100 - 0.00300</small>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="residualValue">Residual Value (%)</label>
-                        <input type="number" id="residualValue" value="60" min="0" max="100" step="1">
+                        <label for="leaseTerm">Lease Term (months)</label>
+                        <select id="leaseTerm">
+                            <option value="24">24 months</option>
+                            <option value="36" selected>36 months</option>
+                            <option value="39">39 months</option>
+                            <option value="48">48 months</option>
+                        </select>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="salesTax">Sales Tax Rate (%)</label>
-                        <input type="number" id="salesTax" value="7" min="0" max="15" step="0.1">
+                        <input type="number" id="salesTax" value="7" min="0" max="15" step="0.25">
                     </div>
-
-                    <button onclick="calculateLease()" class="calculate-btn">Calculate Lease</button>
+                    
+                    <button class="calculate-button" onclick="calculateLease()">CALCULATE</button>
                 </div>
-
-                <div class="results-card" id="leaseResults" style="display: none;">
-                    <h2>Lease Payment Breakdown</h2>
-                    <div class="result-item color-green">
-                        <span>Monthly Lease Payment:</span>
-                        <strong id="monthlyLease">$0</strong>
+                
+                <div class="calculator-results" id="results">
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Monthly Payment</div>
+                        <div class="result-value" id="monthlyPayment">$0</div>
                     </div>
-                    <div class="result-item color-blue">
-                        <span>Depreciation Cost:</span>
-                        <strong id="depreciation">$0</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">Total Lease Cost</div>
+                        <div class="result-value" id="totalCost">$0</div>
                     </div>
-                    <div class="result-item color-yellow">
-                        <span>Finance Charge:</span>
-                        <strong id="financeCharge">$0</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">APR Equivalent</div>
+                        <div class="result-value" id="aprEquivalent">0%</div>
                     </div>
-                    <div class="result-item color-purple">
-                        <span>Sales Tax:</span>
-                        <strong id="taxAmount">$0</strong>
-                    </div>
-                    <div class="result-item color-pink">
-                        <span>Total Due at Signing:</span>
-                        <strong id="dueAtSigning">$0</strong>
-                    </div>
-                    <div class="result-item color-red">
-                        <span>Total Lease Cost:</span>
-                        <strong id="totalLeaseCost">$0</strong>
+                    
+                    <div class="result-breakdown">
+                        <h3>Lease Breakdown</h3>
+                        <div class="breakdown-item">
+                            <span>Depreciation:</span>
+                            <span id="depreciation">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Finance Charge:</span>
+                            <span id="financeCharge">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Residual Value:</span>
+                            <span id="residualValue">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Total Due at Signing:</span>
+                            <span id="dueAtSigning">$0</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
+            
             <div class="info-sections">
-                <div class="info-card">
+                <div class="info-card" style="--card-color: var(--color-blue)">
                     <h2>How to Use the Lease Calculator</h2>
                     <ol>
-                        <li>Enter the vehicle's MSRP (sticker price)</li>
-                        <li>Input your down payment and trade-in value if applicable</li>
-                        <li>Specify the lease term in months (typically 24, 36, or 48)</li>
-                        <li>Enter the money factor provided by the dealer</li>
-                        <li>Input the residual value percentage (usually 50-65%)</li>
-                        <li>Add your local sales tax rate</li>
-                        <li>Click Calculate to see your monthly payment and total cost</li>
+                        <li>Enter the vehicle's MSRP (manufacturer's suggested retail price)</li>
+                        <li>Input the negotiated sale price (capitalized cost)</li>
+                        <li>Add your down payment or trade-in value</li>
+                        <li>Enter the residual value percentage (usually 50-65%)</li>
+                        <li>Input the money factor provided by the dealer</li>
+                        <li>Select your lease term and add local sales tax rate</li>
+                        <li>Click "Calculate" to see your monthly payment</li>
                     </ol>
                 </div>
-
-                <div class="info-card">
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
                     <h2>Features</h2>
                     <ul>
-                        <li>Calculate accurate monthly lease payments</li>
-                        <li>Break down depreciation and finance charges</li>
-                        <li>Include down payment and trade-in value</li>
-                        <li>Calculate sales tax on lease payments</li>
-                        <li>Show total due at signing</li>
-                        <li>Display total cost over lease term</li>
+                        <li>Accurate monthly payment calculation</li>
+                        <li>Money factor to APR conversion</li>
+                        <li>Depreciation cost analysis</li>
+                        <li>Total lease cost projection</li>
+                        <li>Sales tax inclusion</li>
+                        <li>Due at signing calculation</li>
                     </ul>
                 </div>
-
-                <div class="info-card">
-                    <h2>About Car Leasing</h2>
-                    <p>Leasing a car means paying for the vehicle's depreciation during the lease term rather than the full purchase price. The money factor is similar to an interest rate (multiply by 2,400 to convert to APR), and the residual value represents what the car will be worth at lease end.</p>
-                    <p>Leasing typically requires lower monthly payments than buying, but you don't build equity. Consider factors like annual mileage limits, wear-and-tear charges, and whether you prefer driving a new car every few years versus long-term ownership.</p>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>Understanding Car Leases</h2>
+                    <p>A car lease is essentially a long-term rental where you pay for the vehicle's depreciation during the lease term, plus interest (expressed as a money factor) and fees. You don't own the car at the end; you simply return it or have the option to buy it at the residual value.</p>
+                    <p>The money factor is the interest rate used in leasing. To convert it to APR, multiply by 2,400. For example, a money factor of 0.00125 equals 3% APR. Lower money factors mean lower financing costs and better lease deals.</p>
+                    <p>Leasing works best if you drive less than 12,000-15,000 miles per year, want lower monthly payments, and enjoy driving a new car every few years. However, you'll never build equity, and excess mileage or wear-and-tear charges can be costly.</p>
                 </div>
             </div>
         </div>
     </main>
-
-    <div id="footer"></div>
+    
+    <div id="footer-container"></div>
+    
     <script src="app.js"></script>
     <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateLease();
+    </script>
 </body>
 </html>

@@ -4,142 +4,159 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APR Calculator - Calculate Annual Percentage Rate | CD Calculator</title>
-    <meta name="description" content="Free APR calculator to determine the true cost of a loan including interest rate and fees. Compare APR vs interest rate for accurate loan comparisons.">
-    <meta name="keywords" content="APR calculator, annual percentage rate, loan APR, true cost of loan, APR vs interest rate">
+    <meta name="description" content="Free APR calculator. Calculate the true Annual Percentage Rate including fees and compare loan offers effectively.">
+    <meta name="keywords" content="apr calculator, annual percentage rate calculator, effective apr, true cost calculator, loan comparison">
     <link rel="canonical" href="https://cdcalculator.github.io/apr-calculator.html">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
     
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
+      "@type": "SoftwareApplication",
       "name": "APR Calculator",
       "applicationCategory": "FinanceApplication",
+      "description": "Calculate the true Annual Percentage Rate (APR) of a loan including all fees and costs. Compare loan offers accurately.",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Calculate the Annual Percentage Rate (APR) of a loan including all fees and costs for accurate loan comparison."
+      "featureList": "True APR calculation, Fee inclusion, Interest vs APR comparison, Loan cost breakdown"
     }
     </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="header"></div>
-    <div id="sidebar"></div>
-
-    <main class="main-content">
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
         <div class="calculator-page">
-            <div class="breadcrumb">
-                <a href="index.html">Home</a> / <a href="all-calculators.html">Calculators</a> / <span>APR Calculator</span>
+            <div class="calculator-header">
+                <h1 class="calculator-title">APR CALCULATOR</h1>
+                <p class="calculator-description">Calculate the true annual percentage rate of your loan</p>
             </div>
-
-            <h1 class="page-title">APR Calculator</h1>
-            <p class="page-description">Calculate the true Annual Percentage Rate of a loan including all fees and closing costs.</p>
-
-            <div class="calculator-container">
-                <div class="calculator-card">
-                    <h2>Loan Details</h2>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
                     <div class="form-group">
-                        <label for="aprLoanAmount">Loan Amount ($)</label>
-                        <input type="number" id="aprLoanAmount" value="200000" min="0" step="1000">
+                        <label for="loanAmount">Loan Amount ($)</label>
+                        <input type="number" id="loanAmount" value="10000" min="0" step="100">
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="interestRate">Interest Rate (%)</label>
-                        <input type="number" id="interestRate" value="4.5" min="0" max="30" step="0.01">
+                        <input type="number" id="interestRate" value="8" min="0" max="50" step="0.1">
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="aprLoanTerm">Loan Term (years)</label>
-                        <input type="number" id="aprLoanTerm" value="30" min="1" max="40" step="1">
+                        <label for="loanTerm">Loan Term (months)</label>
+                        <select id="loanTerm">
+                            <option value="6">6 months</option>
+                            <option value="12" selected>12 months</option>
+                            <option value="24">24 months</option>
+                            <option value="36">36 months</option>
+                            <option value="48">48 months</option>
+                            <option value="60">60 months</option>
+                        </select>
                     </div>
-
-                    <h2>Additional Costs</h2>
+                    
                     <div class="form-group">
                         <label for="originationFee">Origination Fee ($)</label>
-                        <input type="number" id="originationFee" value="2000" min="0" step="100">
+                        <input type="number" id="originationFee" value="100" min="0" step="10">
                     </div>
-
-                    <div class="form-group">
-                        <label for="processingFee">Processing Fee ($)</label>
-                        <input type="number" id="processingFee" value="500" min="0" step="50">
-                    </div>
-
+                    
                     <div class="form-group">
                         <label for="otherFees">Other Fees ($)</label>
-                        <input type="number" id="otherFees" value="1000" min="0" step="100">
+                        <input type="number" id="otherFees" value="50" min="0" step="10">
                     </div>
-
-                    <button onclick="calculateAPR()" class="calculate-btn">Calculate APR</button>
+                    
+                    <button class="calculate-button" onclick="calculateAPR()">CALCULATE</button>
                 </div>
-
-                <div class="results-card" id="aprResults" style="display: none;">
-                    <h2>APR Analysis</h2>
-                    <div class="result-item color-blue">
-                        <span>Interest Rate:</span>
-                        <strong id="displayRate">0%</strong>
+                
+                <div class="calculator-results" id="results">
+                    <div class="result-card" style="--card-color: var(--color-red)">
+                        <div class="result-label">True APR</div>
+                        <div class="result-value" id="aprRate">0%</div>
                     </div>
-                    <div class="result-item color-red">
-                        <span>Annual Percentage Rate (APR):</span>
-                        <strong id="calculatedAPR">0%</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Monthly Payment</div>
+                        <div class="result-value" id="monthlyPayment">$0</div>
                     </div>
-                    <div class="result-item color-yellow">
-                        <span>Total Fees:</span>
-                        <strong id="totalFees">$0</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">Total Cost</div>
+                        <div class="result-value" id="totalCost">$0</div>
                     </div>
-                    <div class="result-item color-green">
-                        <span>Monthly Payment:</span>
-                        <strong id="aprMonthlyPayment">$0</strong>
-                    </div>
-                    <div class="result-item color-purple">
-                        <span>Total Interest Paid:</span>
-                        <strong id="totalInterestPaid">$0</strong>
-                    </div>
-                    <div class="result-item color-pink">
-                        <span>Total Cost of Loan:</span>
-                        <strong id="totalLoanCost">$0</strong>
+                    
+                    <div class="result-breakdown">
+                        <h3>Cost Breakdown</h3>
+                        <div class="breakdown-item">
+                            <span>Principal:</span>
+                            <span id="principal">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Total Interest:</span>
+                            <span id="totalInterest">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Total Fees:</span>
+                            <span id="totalFees">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>APR vs Rate Diff:</span>
+                            <span id="rateDiff">0%</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
+            
             <div class="info-sections">
-                <div class="info-card">
+                <div class="info-card" style="--card-color: var(--color-blue)">
                     <h2>How to Use the APR Calculator</h2>
                     <ol>
                         <li>Enter the loan amount you're borrowing</li>
-                        <li>Input the stated interest rate from the lender</li>
-                        <li>Specify the loan term in years</li>
-                        <li>Add all associated fees (origination, processing, etc.)</li>
-                        <li>Click Calculate to see the true APR</li>
-                        <li>Compare APR across different loan offers for accurate comparison</li>
+                        <li>Input the stated interest rate</li>
+                        <li>Select the loan term in months</li>
+                        <li>Add any origination fees charged</li>
+                        <li>Include other fees (application, processing, etc.)</li>
+                        <li>Click "Calculate" to see the true APR</li>
                     </ol>
                 </div>
-
-                <div class="info-card">
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
                     <h2>Features</h2>
                     <ul>
-                        <li>Calculate true APR including all fees</li>
-                        <li>Compare interest rate vs. APR</li>
-                        <li>See total cost breakdown of the loan</li>
-                        <li>Include origination and processing fees</li>
-                        <li>Calculate monthly payment amount</li>
-                        <li>Understand total interest over loan term</li>
+                        <li>True APR calculation including all fees</li>
+                        <li>Interest rate vs APR comparison</li>
+                        <li>Total cost breakdown</li>
+                        <li>Monthly payment calculation</li>
+                        <li>Fee impact analysis</li>
+                        <li>Accurate loan comparison tool</li>
                     </ul>
                 </div>
-
-                <div class="info-card">
-                    <h2>About Annual Percentage Rate (APR)</h2>
-                    <p>APR represents the true yearly cost of a loan, including both the interest rate and all fees associated with obtaining the loan. Unlike the interest rate alone, APR provides a more complete picture of what you'll actually pay.</p>
-                    <p>When comparing loans, always look at the APR rather than just the interest rate. A loan with a lower interest rate but high fees may have a higher APR than a loan with a slightly higher interest rate but minimal fees. APR is the best tool for accurate loan comparison.</p>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>Understanding APR</h2>
+                    <p>Annual Percentage Rate (APR) represents the true yearly cost of a loan, including both the interest rate and all associated fees. While the interest rate only reflects the cost of borrowing the principal, APR provides a complete picture by incorporating origination fees, closing costs, and other charges.</p>
+                    <p>APR is higher than the interest rate when fees are involved, making it a more accurate tool for comparing loan offers. Two loans with the same interest rate can have vastly different APRs depending on their fee structures.</p>
+                    <p>When comparing loans, always look at the APR rather than just the interest rate. A loan with a slightly higher interest rate but lower fees may have a better APR and cost less overall. Federal law requires lenders to disclose APR, helping consumers make informed borrowing decisions.</p>
                 </div>
             </div>
         </div>
     </main>
-
-    <div id="footer"></div>
+    
+    <div id="footer-container"></div>
+    
     <script src="app.js"></script>
     <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateAPR();
+    </script>
 </body>
 </html>

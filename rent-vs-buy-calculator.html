@@ -3,155 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent vs Buy Calculator - Should I Rent or Buy a Home? | CD Calculator</title>
-    <meta name="description" content="Free rent vs buy calculator to compare the costs of renting versus buying a home over time. Make informed housing decisions with detailed analysis.">
-    <meta name="keywords" content="rent vs buy calculator, renting vs buying, should I rent or buy, home buying decision">
+    <title>Rent vs Buy Calculator - Should You Rent or Buy? | CD Calculator</title>
+    <meta name="description" content="Free rent vs buy calculator. Compare the true costs of renting versus buying a home to make the right housing decision.">
+    <meta name="keywords" content="rent vs buy calculator, rent or buy, housing calculator, renting vs buying calculator">
     <link rel="canonical" href="https://cdcalculator.github.io/rent-vs-buy-calculator.html">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
     
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
+      "@type": "SoftwareApplication",
       "name": "Rent vs Buy Calculator",
       "applicationCategory": "FinanceApplication",
+      "description": "Compare renting versus buying a home with comprehensive cost analysis. See which option is better for your financial situation.",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Compare the financial implications of renting versus buying a home including all costs, appreciation, and opportunity costs."
+      "featureList": "Cost comparison, Break-even analysis, Equity building, Investment opportunity cost"
     }
     </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="header"></div>
-    <div id="sidebar"></div>
-
-    <main class="main-content">
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
         <div class="calculator-page">
-            <div class="breadcrumb">
-                <a href="index.html">Home</a> / <a href="all-calculators.html">Calculators</a> / <span>Rent vs Buy Calculator</span>
+            <div class="calculator-header">
+                <h1 class="calculator-title">RENT VS BUY CALCULATOR</h1>
+                <p class="calculator-description">Compare renting versus buying to make the best decision</p>
             </div>
-
-            <h1 class="page-title">Rent vs Buy Calculator</h1>
-            <p class="page-description">Compare the financial impact of renting versus buying a home over time.</p>
-
-            <div class="calculator-container">
-                <div class="calculator-card">
-                    <h2>Renting Details</h2>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="homePrice">Home Purchase Price ($)</label>
+                        <input type="number" id="homePrice" value="350000" min="0" step="5000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="downPayment">Down Payment ($)</label>
+                        <input type="number" id="downPayment" value="70000" min="0" step="1000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interestRate">Mortgage Rate (%)</label>
+                        <input type="number" id="interestRate" value="6.5" min="0" max="15" step="0.125">
+                    </div>
+                    
                     <div class="form-group">
                         <label for="monthlyRent">Monthly Rent ($)</label>
                         <input type="number" id="monthlyRent" value="2000" min="0" step="50">
                     </div>
-
+                    
+                    <div class="form-group">
+                        <label for="yearsToStay">Years You Plan to Stay</label>
+                        <input type="number" id="yearsToStay" value="7" min="1" max="30" step="1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="homeAppreciation">Home Appreciation Rate (%)</label>
+                        <input type="number" id="homeAppreciation" value="3" min="-5" max="10" step="0.5">
+                    </div>
+                    
                     <div class="form-group">
                         <label for="rentIncrease">Annual Rent Increase (%)</label>
-                        <input type="number" id="rentIncrease" value="3" min="0" max="20" step="0.5">
+                        <input type="number" id="rentIncrease" value="3" min="0" max="10" step="0.5">
                     </div>
-
-                    <h2>Buying Details</h2>
-                    <div class="form-group">
-                        <label for="homePrice">Home Price ($)</label>
-                        <input type="number" id="homePrice" value="350000" min="0" step="5000">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="buyDownPayment">Down Payment ($)</label>
-                        <input type="number" id="buyDownPayment" value="70000" min="0" step="1000">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="mortgageRate">Mortgage Rate (%)</label>
-                        <input type="number" id="mortgageRate" value="6.5" min="0" max="20" step="0.1">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="buyLoanTerm">Loan Term (years)</label>
-                        <input type="number" id="buyLoanTerm" value="30" min="10" max="40" step="5">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="homeAppreciation">Annual Home Appreciation (%)</label>
-                        <input type="number" id="homeAppreciation" value="3.5" min="-5" max="15" step="0.5">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="yearsToCompare">Years to Compare</label>
-                        <input type="number" id="yearsToCompare" value="10" min="1" max="30" step="1">
-                    </div>
-
-                    <button onclick="calculateRentVsBuy()" class="calculate-btn">Compare Options</button>
+                    
+                    <button class="calculate-button" onclick="calculateRentVsBuy()">CALCULATE</button>
                 </div>
-
-                <div class="results-card" id="rentBuyResults" style="display: none;">
-                    <h2>Cost Comparison</h2>
-                    <div class="result-item color-blue">
-                        <span>Total Cost of Renting:</span>
-                        <strong id="totalRentCost">$0</strong>
+                
+                <div class="calculator-results" id="results">
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Better Option</div>
+                        <div class="result-value" id="betterOption">-</div>
                     </div>
-                    <div class="result-item color-green">
-                        <span>Total Cost of Buying:</span>
-                        <strong id="totalBuyCost">$0</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Cost Difference</div>
+                        <div class="result-value" id="costDifference">$0</div>
                     </div>
-                    <div class="result-item color-purple">
-                        <span>Home Value After Period:</span>
-                        <strong id="futureHomeValue">$0</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">Break-Even Year</div>
+                        <div class="result-value" id="breakEvenYear">0</div>
                     </div>
-                    <div class="result-item color-yellow">
-                        <span>Equity Built:</span>
-                        <strong id="equityBuilt">$0</strong>
-                    </div>
-                    <div class="result-item color-pink">
-                        <span>Net Position (Buying):</span>
-                        <strong id="netPosition">$0</strong>
-                    </div>
-                    <div class="result-item color-red">
-                        <span>Better Option:</span>
-                        <strong id="betterOption">-</strong>
+                    
+                    <div class="result-breakdown">
+                        <h3>Cost Comparison</h3>
+                        <div class="breakdown-item">
+                            <span>Total Renting Cost:</span>
+                            <span id="totalRentCost">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Total Buying Cost:</span>
+                            <span id="totalBuyCost">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Home Equity Built:</span>
+                            <span id="equityBuilt">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Net Position:</span>
+                            <span id="netPosition">$0</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
+            
             <div class="info-sections">
-                <div class="info-card">
+                <div class="info-card" style="--card-color: var(--color-blue)">
                     <h2>How to Use the Rent vs Buy Calculator</h2>
                     <ol>
-                        <li>Enter your current monthly rent amount</li>
-                        <li>Estimate annual rent increase percentage</li>
-                        <li>Input the home price you're considering</li>
-                        <li>Specify your down payment amount</li>
-                        <li>Enter current mortgage interest rate</li>
-                        <li>Choose loan term and expected home appreciation rate</li>
-                        <li>Select time period to compare (e.g., 5, 10, or 15 years)</li>
-                        <li>Click Compare to see which option is more cost-effective</li>
+                        <li>Enter the purchase price of the home you're considering</li>
+                        <li>Input your available down payment amount</li>
+                        <li>Add the current mortgage interest rate</li>
+                        <li>Enter the monthly rent for a comparable property</li>
+                        <li>Estimate how many years you plan to stay</li>
+                        <li>Set realistic home appreciation and rent increase rates</li>
+                        <li>Click "Calculate" to see which option is better</li>
                     </ol>
                 </div>
-
-                <div class="info-card">
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
                     <h2>Features</h2>
                     <ul>
-                        <li>Compare total costs over custom time period</li>
-                        <li>Calculate home equity accumulation</li>
-                        <li>Factor in home appreciation</li>
-                        <li>Account for rent increases over time</li>
-                        <li>Show net financial position for buying</li>
-                        <li>Provide clear recommendation</li>
+                        <li>Comprehensive cost comparison</li>
+                        <li>Break-even timeline analysis</li>
+                        <li>Home equity calculation</li>
+                        <li>Appreciation and inflation factors</li>
+                        <li>Long-term financial projection</li>
+                        <li>Personalized recommendation</li>
                     </ul>
                 </div>
-
-                <div class="info-card">
-                    <h2>About Rent vs Buy Decision</h2>
-                    <p>The rent vs buy decision depends on many factors beyond pure finances, including lifestyle flexibility, job stability, local market conditions, and personal goals. Buying builds equity but comes with maintenance costs, property taxes, and less flexibility. Renting offers flexibility and no maintenance responsibilities but no equity building.</p>
-                    <p>Consider the break-even point: how long until buying becomes more cost-effective than renting. In high-cost areas or if you plan to move soon, renting may be better. For long-term stability in appreciating markets, buying often wins. Factor in closing costs, maintenance (typically 1% of home value annually), and opportunity cost of your down payment.</p>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>Renting vs Buying Decision</h2>
+                    <p>The rent vs buy decision depends on many factors beyond just monthly costs. Buying builds equity and provides tax benefits, but requires a substantial down payment and comes with maintenance costs, property taxes, and less flexibility to relocate.</p>
+                    <p>Renting offers flexibility, predictable monthly costs, and no maintenance responsibilities. You avoid the risks of declining home values and can invest your down payment elsewhere. However, rent increases over time and you build no equity.</p>
+                    <p>Generally, buying makes more sense if you plan to stay 5+ years, have stable income, and can afford 20% down. Renting is better for those prioritizing flexibility, living in expensive markets, or still building their down payment. Consider your career plans, market conditions, and personal financial goals.</p>
                 </div>
             </div>
         </div>
     </main>
-
-    <div id="footer"></div>
+    
+    <div id="footer-container"></div>
+    
     <script src="app.js"></script>
     <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateRentVsBuy();
+    </script>
 </body>
 </html>

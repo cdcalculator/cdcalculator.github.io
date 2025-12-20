@@ -3,150 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salary Calculator - Convert Annual to Hourly & Monthly Pay | CD Calculator</title>
-    <meta name="description" content="Free salary calculator to convert between annual, monthly, weekly, and hourly pay rates. Calculate take-home pay after taxes and deductions.">
-    <meta name="keywords" content="salary calculator, hourly to annual, salary converter, paycheck calculator, take home pay">
+    <title>Salary Calculator - Hourly to Annual Salary Converter | CD Calculator</title>
+    <meta name="description" content="Free salary calculator. Convert hourly wage to annual salary, calculate take-home pay, and compare salary offers.">
+    <meta name="keywords" content="salary calculator, hourly to salary, salary converter, take home pay calculator, wage calculator">
     <link rel="canonical" href="https://cdcalculator.github.io/salary-calculator.html">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
     
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
+      "@type": "SoftwareApplication",
       "name": "Salary Calculator",
       "applicationCategory": "FinanceApplication",
+      "description": "Convert between hourly and annual salary, calculate take-home pay after taxes, and analyze compensation packages.",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Convert salary between different time periods and calculate take-home pay after taxes and deductions."
+      "featureList": "Hourly to salary conversion, Take-home pay, Tax estimation, Benefits value calculation"
     }
     </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="header"></div>
-    <div id="sidebar"></div>
-
-    <main class="main-content">
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
         <div class="calculator-page">
-            <div class="breadcrumb">
-                <a href="index.html">Home</a> / <a href="all-calculators.html">Calculators</a> / <span>Salary Calculator</span>
+            <div class="calculator-header">
+                <h1 class="calculator-title">SALARY CALCULATOR</h1>
+                <p class="calculator-description">Convert hourly wages and calculate take-home pay</p>
             </div>
-
-            <h1 class="page-title">Salary Calculator</h1>
-            <p class="page-description">Convert between salary periods and calculate your take-home pay after taxes and deductions.</p>
-
-            <div class="calculator-container">
-                <div class="calculator-card">
-                    <h2>Salary Information</h2>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
                     <div class="form-group">
-                        <label for="salaryAmount">Salary Amount ($)</label>
-                        <input type="number" id="salaryAmount" value="75000" min="0" step="1000">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="salaryPeriod">Pay Period</label>
-                        <select id="salaryPeriod">
-                            <option value="annual">Annual</option>
-                            <option value="monthly">Monthly</option>
-                            <option value="weekly">Weekly</option>
-                            <option value="hourly">Hourly</option>
+                        <label for="payType">Pay Type</label>
+                        <select id="payType" onchange="togglePayType()">
+                            <option value="annual">Annual Salary</option>
+                            <option value="hourly">Hourly Wage</option>
                         </select>
                     </div>
-
+                    
+                    <div class="form-group" id="annualSalaryGroup">
+                        <label for="annualSalary">Annual Salary ($)</label>
+                        <input type="number" id="annualSalary" value="75000" min="0" step="1000">
+                    </div>
+                    
+                    <div class="form-group" id="hourlyWageGroup" style="display: none;">
+                        <label for="hourlyWage">Hourly Wage ($)</label>
+                        <input type="number" id="hourlyWage" value="36.06" min="0" step="0.25">
+                    </div>
+                    
                     <div class="form-group">
                         <label for="hoursPerWeek">Hours per Week</label>
-                        <input type="number" id="hoursPerWeek" value="40" min="1" max="168" step="1">
+                        <input type="number" id="hoursPerWeek" value="40" min="0" max="168" step="1">
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="workWeeks">Work Weeks per Year</label>
-                        <input type="number" id="workWeeks" value="52" min="1" max="52" step="1">
+                        <label for="weeksPerYear">Weeks per Year</label>
+                        <input type="number" id="weeksPerYear" value="52" min="1" max="52" step="1">
                     </div>
-
-                    <h2>Deductions (Optional)</h2>
+                    
                     <div class="form-group">
-                        <label for="taxRate">Tax Rate (%)</label>
-                        <input type="number" id="taxRate" value="25" min="0" max="50" step="0.5">
+                        <label for="taxRate">Effective Tax Rate (%)</label>
+                        <input type="number" id="taxRate" value="25" min="0" max="50" step="1">
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="otherDeductions">Other Monthly Deductions ($)</label>
-                        <input type="number" id="otherDeductions" value="500" min="0" step="50">
-                        <small>401k, health insurance, etc.</small>
+                        <label for="benefits">Annual Benefits Value ($)</label>
+                        <input type="number" id="benefits" value="15000" min="0" step="500">
                     </div>
-
-                    <button onclick="calculateSalary()" class="calculate-btn">Calculate Salary</button>
+                    
+                    <button class="calculate-button" onclick="calculateSalary()">CALCULATE</button>
                 </div>
-
-                <div class="results-card" id="salaryResults" style="display: none;">
-                    <h2>Salary Breakdown</h2>
-                    <div class="result-item color-green">
-                        <span>Annual Salary:</span>
-                        <strong id="annualSalaryResult">$0</strong>
+                
+                <div class="calculator-results" id="results">
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Annual Salary</div>
+                        <div class="result-value" id="annualSalaryResult">$0</div>
                     </div>
-                    <div class="result-item color-blue">
-                        <span>Monthly Salary:</span>
-                        <strong id="monthlySalaryResult">$0</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Hourly Rate</div>
+                        <div class="result-value" id="hourlyRate">$0</div>
                     </div>
-                    <div class="result-item color-purple">
-                        <span>Weekly Salary:</span>
-                        <strong id="weeklySalaryResult">$0</strong>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">Take-Home Pay</div>
+                        <div class="result-value" id="takeHomePay">$0</div>
                     </div>
-                    <div class="result-item color-yellow">
-                        <span>Hourly Rate:</span>
-                        <strong id="hourlyRateResult">$0</strong>
-                    </div>
-                    <div class="result-item color-pink">
-                        <span>Monthly Take-Home:</span>
-                        <strong id="takeHome">$0</strong>
-                    </div>
-                    <div class="result-item color-red">
-                        <span>Annual Take-Home:</span>
-                        <strong id="annualTakeHome">$0</strong>
+                    
+                    <div class="result-breakdown">
+                        <h3>Compensation Breakdown</h3>
+                        <div class="breakdown-item">
+                            <span>Monthly Gross:</span>
+                            <span id="monthlyGross">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Monthly Take-Home:</span>
+                            <span id="monthlyTakeHome">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Annual Taxes:</span>
+                            <span id="annualTaxes">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Total Compensation:</span>
+                            <span id="totalCompensation">$0</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
+            
             <div class="info-sections">
-                <div class="info-card">
+                <div class="info-card" style="--card-color: var(--color-blue)">
                     <h2>How to Use the Salary Calculator</h2>
                     <ol>
-                        <li>Enter your salary amount</li>
-                        <li>Select your pay period (annual, monthly, weekly, or hourly)</li>
-                        <li>Specify hours worked per week (typically 40 for full-time)</li>
-                        <li>Enter number of work weeks per year (52 for year-round)</li>
-                        <li>Add your estimated tax rate percentage</li>
-                        <li>Include other monthly deductions like 401k or insurance</li>
-                        <li>Click Calculate to see salary in all time periods and take-home pay</li>
+                        <li>Select whether you're entering annual salary or hourly wage</li>
+                        <li>Enter your salary or hourly rate</li>
+                        <li>Input hours worked per week (typically 40 for full-time)</li>
+                        <li>Enter weeks worked per year (52 minus vacation weeks)</li>
+                        <li>Add your estimated effective tax rate (20-30% typical)</li>
+                        <li>Include the value of benefits (health insurance, 401k match, etc.)</li>
+                        <li>Click "Calculate" to see all conversions and take-home pay</li>
                     </ol>
                 </div>
-
-                <div class="info-card">
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
                     <h2>Features</h2>
                     <ul>
-                        <li>Convert between annual, monthly, weekly, and hourly pay</li>
-                        <li>Calculate gross salary in all time periods</li>
-                        <li>Estimate take-home pay after taxes</li>
-                        <li>Include retirement and insurance deductions</li>
-                        <li>Adjust for different work schedules</li>
-                        <li>Compare job offers with different pay structures</li>
+                        <li>Hourly to annual salary conversion</li>
+                        <li>Annual to hourly wage conversion</li>
+                        <li>Take-home pay calculation</li>
+                        <li>Monthly, weekly, and daily breakdowns</li>
+                        <li>Benefits value inclusion</li>
+                        <li>Total compensation analysis</li>
                     </ul>
                 </div>
-
-                <div class="info-card">
-                    <h2>About Salary Calculations</h2>
-                    <p>Understanding your salary in different time periods helps with budgeting and comparing job offers. The standard calculation assumes 40 hours per week and 52 weeks per year (2,080 hours annually), but you can adjust for part-time work, seasonal employment, or unpaid time off.</p>
-                    <p>Take-home pay is always less than gross salary due to taxes and deductions. Federal income tax, state tax, Social Security, Medicare, and voluntary deductions like 401k contributions all reduce your paycheck. This calculator provides estimates - actual take-home depends on your specific tax situation, filing status, and local tax rates. Consult a tax professional for precise calculations.</p>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>Understanding Salary Calculations</h2>
+                    <p>Annual salary is typically based on 2,080 hours per year (40 hours × 52 weeks). To convert hourly to annual, multiply your hourly rate by 2,080. For annual to hourly, divide by 2,080. Remember that this is gross pay before taxes and deductions.</p>
+                    <p>Take-home pay is your actual income after taxes and deductions. Federal income tax, Social Security (6.2%), Medicare (1.45%), state tax, and local taxes reduce your gross salary by 20-35% on average. Higher earners pay more due to progressive tax brackets.</p>
+                    <p>When comparing job offers, look beyond base salary to total compensation. Include health insurance (worth $7,000-$20,000), 401(k) matching (typically 3-6% of salary), paid time off, bonuses, stock options, and other benefits. A $70,000 salary with excellent benefits may be worth more than an $80,000 salary with minimal benefits.</p>
                 </div>
             </div>
         </div>
     </main>
-
-    <div id="footer"></div>
+    
+    <div id="footer-container"></div>
+    
     <script src="app.js"></script>
     <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        
+        function togglePayType() {
+            const payType = document.getElementById('payType').value;
+            document.getElementById('annualSalaryGroup').style.display = payType === 'annual' ? 'block' : 'none';
+            document.getElementById('hourlyWageGroup').style.display = payType === 'hourly' ? 'block' : 'none';
+        }
+        
+        calculateSalary();
+    </script>
 </body>
 </html>

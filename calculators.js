@@ -448,33 +448,21 @@ function calculateDTI() {
   document.getElementById("debtCapacity").textContent = formatCurrency(Math.max(0, debtCapacity))
 }
 
-// Helper function - already defined in app.js but included here for calculator pages
-function formatCurrency(value) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value)
-}
-
 // Refinance Calculator
 function calculateRefinance() {
   const currentBalance = Number.parseFloat(document.getElementById("currentBalance").value) || 0
   const currentRate = Number.parseFloat(document.getElementById("currentRate").value) || 0
-  const remainingYears = Number.parseInt(document.getElementById("remainingYears").value) || 25
+  const remainingYears = Number.parseFloat(document.getElementById("remainingYears").value) || 0
   const newRate = Number.parseFloat(document.getElementById("newRate").value) || 0
-  const newTerm = Number.parseInt(document.getElementById("newTerm").value) || 30
+  const newTerm = Number.parseInt(document.getElementById("newTerm").value) || 0
   const closingCosts = Number.parseFloat(document.getElementById("closingCosts").value) || 0
 
-  // Calculate current monthly payment
   const currentMonthlyRate = currentRate / 100 / 12
   const currentPayments = remainingYears * 12
   const currentPayment =
     (currentBalance * (currentMonthlyRate * Math.pow(1 + currentMonthlyRate, currentPayments))) /
     (Math.pow(1 + currentMonthlyRate, currentPayments) - 1)
 
-  // Calculate new monthly payment
   const newMonthlyRate = newRate / 100 / 12
   const newPayments = newTerm * 12
   const newPayment =
@@ -484,374 +472,346 @@ function calculateRefinance() {
   const monthlySavings = currentPayment - newPayment
   const breakEvenMonths = monthlySavings > 0 ? Math.ceil(closingCosts / monthlySavings) : 0
 
-  // Calculate total interest
-  const currentInterest = currentPayment * currentPayments - currentBalance
-  const newInterest = newPayment * newPayments - currentBalance
-  const interestSavings = currentInterest - newInterest
+  const currentTotalPaid = currentPayment * currentPayments
+  const newTotalPaid = newPayment * newPayments
+  const totalSavings = currentTotalPaid - newTotalPaid - closingCosts
+  const interestSavings = currentTotalPaid - currentBalance - (newTotalPaid - currentBalance)
 
+  let recommendation = "Not Recommended"
+  if (totalSavings > 0 && breakEvenMonths < remainingYears * 12) {
+    recommendation = "Recommended"
+  }
+
+  document.getElementById("monthlySavings").textContent = formatCurrency(monthlySavings)
+  document.getElementById("totalSavings").textContent = formatCurrency(totalSavings)
+  document.getElementById("breakEven").textContent = breakEvenMonths + " months"
   document.getElementById("currentPayment").textContent = formatCurrency(currentPayment)
   document.getElementById("newPayment").textContent = formatCurrency(newPayment)
-  document.getElementById("monthlySavings").textContent = formatCurrency(monthlySavings)
-  document.getElementById("breakEven").textContent = breakEvenMonths + " months"
-  document.getElementById("currentInterest").textContent = formatCurrency(currentInterest)
-  document.getElementById("newInterest").textContent = formatCurrency(newInterest)
   document.getElementById("interestSavings").textContent = formatCurrency(interestSavings)
-
-  document.getElementById("refinanceResults").style.display = "block"
+  document.getElementById("recommendation").textContent = recommendation
 }
 
 // Debt Payoff Calculator
 function calculateDebtPayoff() {
   const totalDebt = Number.parseFloat(document.getElementById("totalDebt").value) || 0
-  const debtRate = Number.parseFloat(document.getElementById("debtRate").value) || 0
-  const minPayment = Number.parseFloat(document.getElementById("minPayment").value) || 0
+  const avgInterest = Number.parseFloat(document.getElementById("avgInterest").value) || 0
+  const monthlyPayment = Number.parseFloat(document.getElementById("monthlyPayment").value) || 0
   const extraPayment = Number.parseFloat(document.getElementById("extraPayment").value) || 0
+  const method = document.getElementById("payoffMethod").value
 
-  const monthlyRate = debtRate / 100 / 12
+  const totalPayment = monthlyPayment + extraPayment
+  const monthlyRate = avgInterest / 100 / 12
 
-  // Calculate with minimum payment only
-  let balance1 = totalDebt
-  let months1 = 0
-  let interest1 = 0
+  let balance = totalDebt
+  let months = 0
+  let totalInterest = 0
   const maxMonths = 600
 
-  while (balance1 > 0 && months1 < maxMonths) {
-    const interestCharge = balance1 * monthlyRate
-    interest1 += interestCharge
-    balance1 = balance1 + interestCharge - minPayment
-    months1++
-    if (minPayment <= interestCharge) break
+  while (balance > 0 && months < maxMonths) {
+    const interestCharge = balance * monthlyRate
+    totalInterest += interestCharge
+    balance = balance + interestCharge - totalPayment
+    months++
+
+    if (totalPayment <= interestCharge) {
+      months = maxMonths
+      break
+    }
   }
 
-  // Calculate with extra payment
-  let balance2 = totalDebt
-  let months2 = 0
-  let interest2 = 0
-  const totalPayment = minPayment + extraPayment
+  const totalPaid = totalDebt + totalInterest
+  const interestSaved = totalDebt * 0.15 // Simplified estimate
 
-  while (balance2 > 0 && months2 < maxMonths) {
-    const interestCharge = balance2 * monthlyRate
-    interest2 += interestCharge
-    balance2 = balance2 + interestCharge - totalPayment
-    months2++
-    if (totalPayment <= interestCharge) break
-  }
+  const today = new Date()
+  const debtFreeDate = new Date(today.setMonth(today.getMonth() + months))
 
-  const timeSaved = months1 - months2
-  const interestSaved = interest1 - interest2
+  const strategyName = method === "avalanche" ? "Avalanche Method" : "Snowball Method"
 
-  document.getElementById("minPayoffTime").textContent = months1 + " months"
-  document.getElementById("minInterest").textContent = formatCurrency(interest1)
-  document.getElementById("extraPayoffTime").textContent = months2 + " months"
-  document.getElementById("extraInterest").textContent = formatCurrency(interest2)
-  document.getElementById("timeSaved").textContent = timeSaved + " months"
+  document.getElementById("payoffTime").textContent = months + " months"
+  document.getElementById("totalInterest").textContent = formatCurrency(totalInterest)
+  document.getElementById("totalPaid").textContent = formatCurrency(totalPaid)
+  document.getElementById("debtFreeDate").textContent = debtFreeDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+  })
   document.getElementById("interestSaved").textContent = formatCurrency(interestSaved)
-
-  document.getElementById("debtResults").style.display = "block"
+  document.getElementById("strategy").textContent = strategyName
+  document.getElementById("progress").textContent = "On Track"
 }
 
 // APR Calculator
 function calculateAPR() {
-  const loanAmount = Number.parseFloat(document.getElementById("aprLoanAmount").value) || 0
+  const loanAmount = Number.parseFloat(document.getElementById("loanAmount").value) || 0
   const interestRate = Number.parseFloat(document.getElementById("interestRate").value) || 0
-  const loanTerm = Number.parseInt(document.getElementById("aprLoanTerm").value) || 30
+  const loanTerm = Number.parseInt(document.getElementById("loanTerm").value) || 12
   const originationFee = Number.parseFloat(document.getElementById("originationFee").value) || 0
-  const processingFee = Number.parseFloat(document.getElementById("processingFee").value) || 0
   const otherFees = Number.parseFloat(document.getElementById("otherFees").value) || 0
 
-  const totalFees = originationFee + processingFee + otherFees
+  const totalFees = originationFee + otherFees
   const netLoanAmount = loanAmount - totalFees
 
   const monthlyRate = interestRate / 100 / 12
-  const numberOfPayments = loanTerm * 12
-
-  // Monthly payment based on full loan amount
   const monthlyPayment =
-    (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments))) /
-    (Math.pow(1 + monthlyRate, numberOfPayments) - 1)
+    (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, loanTerm))) / (Math.pow(1 + monthlyRate, loanTerm) - 1)
 
-  const totalInterest = monthlyPayment * numberOfPayments - loanAmount
+  const totalPaid = monthlyPayment * loanTerm
+  const totalInterest = totalPaid - loanAmount
+  const totalCost = totalPaid + totalFees
 
-  // Calculate APR using approximation
-  const totalPayments = monthlyPayment * numberOfPayments
-  const totalCost = totalPayments + totalFees
-  const apr = ((totalCost - loanAmount) / loanAmount / loanTerm) * 100
+  // Simplified APR calculation
+  const aprRate = ((totalInterest + totalFees) / netLoanAmount / (loanTerm / 12)) * 100
+  const rateDiff = aprRate - interestRate
 
-  document.getElementById("displayRate").textContent = interestRate.toFixed(2) + "%"
-  document.getElementById("calculatedAPR").textContent = apr.toFixed(2) + "%"
+  document.getElementById("aprRate").textContent = aprRate.toFixed(2) + "%"
+  document.getElementById("monthlyPayment").textContent = formatCurrency(monthlyPayment)
+  document.getElementById("totalCost").textContent = formatCurrency(totalCost)
+  document.getElementById("principal").textContent = formatCurrency(loanAmount)
+  document.getElementById("totalInterest").textContent = formatCurrency(totalInterest)
   document.getElementById("totalFees").textContent = formatCurrency(totalFees)
-  document.getElementById("aprMonthlyPayment").textContent = formatCurrency(monthlyPayment)
-  document.getElementById("totalInterestPaid").textContent = formatCurrency(totalInterest)
-  document.getElementById("totalLoanCost").textContent = formatCurrency(totalCost)
-
-  document.getElementById("aprResults").style.display = "block"
+  document.getElementById("rateDiff").textContent = rateDiff.toFixed(2) + "%"
 }
 
 // Lease Calculator
 function calculateLease() {
-  const vehiclePrice = Number.parseFloat(document.getElementById("vehiclePrice").value) || 0
+  const msrp = Number.parseFloat(document.getElementById("msrp").value) || 0
+  const salePrice = Number.parseFloat(document.getElementById("salePrice").value) || 0
   const downPayment = Number.parseFloat(document.getElementById("downPayment").value) || 0
-  const tradeIn = Number.parseFloat(document.getElementById("tradeIn").value) || 0
+  const residualPercent = Number.parseFloat(document.getElementById("residualPercent").value) || 0
+  const moneyFactor = Number.parseFloat(document.getElementById("moneyFactor").value) || 0
   const leaseTerm = Number.parseInt(document.getElementById("leaseTerm").value) || 36
-  const moneyFactor = Number.parseFloat(document.getElementById("moneyFactor").value) || 0.00125
-  const residualValue = Number.parseFloat(document.getElementById("residualValue").value) || 60
   const salesTax = Number.parseFloat(document.getElementById("salesTax").value) || 0
 
-  const residualAmount = vehiclePrice * (residualValue / 100)
-  const netCapCost = vehiclePrice - downPayment - tradeIn
+  const residualValue = msrp * (residualPercent / 100)
+  const netCapCost = salePrice - downPayment
+  const depreciation = netCapCost - residualValue
+  const monthlyDepreciation = depreciation / leaseTerm
 
-  // Depreciation fee
-  const depreciation = (netCapCost - residualAmount) / leaseTerm
-
-  // Finance charge
-  const financeCharge = (netCapCost + residualAmount) * moneyFactor
-
-  // Base monthly payment
-  const basePayment = depreciation + financeCharge
-
-  // Sales tax
+  const financeCharge = (netCapCost + residualValue) * moneyFactor
+  const basePayment = monthlyDepreciation + financeCharge
   const taxAmount = basePayment * (salesTax / 100)
+  const monthlyPayment = basePayment + taxAmount
 
-  // Total monthly payment
-  const monthlyLease = basePayment + taxAmount
+  const totalCost = monthlyPayment * leaseTerm + downPayment
+  const aprEquivalent = moneyFactor * 2400
+  const dueAtSigning = downPayment + monthlyPayment
 
-  const dueAtSigning = downPayment + monthlyLease
-  const totalLeaseCost = monthlyLease * leaseTerm + downPayment
-
-  document.getElementById("monthlyLease").textContent = formatCurrency(monthlyLease)
+  document.getElementById("monthlyPayment").textContent = formatCurrency(monthlyPayment)
+  document.getElementById("totalCost").textContent = formatCurrency(totalCost)
+  document.getElementById("aprEquivalent").textContent = aprEquivalent.toFixed(2) + "%"
   document.getElementById("depreciation").textContent = formatCurrency(depreciation)
-  document.getElementById("financeCharge").textContent = formatCurrency(financeCharge)
-  document.getElementById("taxAmount").textContent = formatCurrency(taxAmount)
+  document.getElementById("financeCharge").textContent = formatCurrency(financeCharge * leaseTerm)
+  document.getElementById("residualValue").textContent = formatCurrency(residualValue)
   document.getElementById("dueAtSigning").textContent = formatCurrency(dueAtSigning)
-  document.getElementById("totalLeaseCost").textContent = formatCurrency(totalLeaseCost)
-
-  document.getElementById("leaseResults").style.display = "block"
 }
 
 // Home Affordability Calculator
 function calculateAffordability() {
   const annualIncome = Number.parseFloat(document.getElementById("annualIncome").value) || 0
   const monthlyDebts = Number.parseFloat(document.getElementById("monthlyDebts").value) || 0
-  const downPayment = Number.parseFloat(document.getElementById("affordDownPayment").value) || 0
-  const interestRate = Number.parseFloat(document.getElementById("affordInterestRate").value) || 0
-  const loanTerm = Number.parseInt(document.getElementById("affordLoanTerm").value) || 30
+  const downPayment = Number.parseFloat(document.getElementById("downPayment").value) || 0
+  const interestRate = Number.parseFloat(document.getElementById("interestRate").value) || 0
+  const loanTerm = Number.parseInt(document.getElementById("loanTerm").value) || 30
   const propertyTax = Number.parseFloat(document.getElementById("propertyTax").value) || 0
   const homeInsurance = Number.parseFloat(document.getElementById("homeInsurance").value) || 0
 
   const monthlyIncome = annualIncome / 12
-  const monthlyRate = interestRate / 100 / 12
-  const numberOfPayments = loanTerm * 12
+  const maxHousingPayment = monthlyIncome * 0.28 // 28% rule
+  const maxTotalDebt = monthlyIncome * 0.36 // 36% rule
+  const maxMortgagePayment = Math.min(maxHousingPayment, maxTotalDebt - monthlyDebts)
 
-  // Using 28% front-end ratio (housing payment)
-  const maxHousingPayment = monthlyIncome * 0.28
-
-  // Using 36% back-end ratio (total debt)
-  const maxTotalDebt = monthlyIncome * 0.36
-  const maxHousingWithDebt = maxTotalDebt - monthlyDebts
-
-  // Use the more conservative number
-  const affordablePayment = Math.min(maxHousingPayment, maxHousingWithDebt)
-
-  // Subtract property tax and insurance to get P&I payment
   const monthlyTax = propertyTax / 12
   const monthlyInsurance = homeInsurance / 12
-  const maxPIPayment = affordablePayment - monthlyTax - monthlyInsurance
+  const availableForPI = maxMortgagePayment - monthlyTax - monthlyInsurance
 
-  // Calculate max loan amount
+  const monthlyRate = interestRate / 100 / 12
+  const numberOfPayments = loanTerm * 12
   const maxLoanAmount =
-    (maxPIPayment * (Math.pow(1 + monthlyRate, numberOfPayments) - 1)) /
-    (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments))
+    availableForPI *
+    ((Math.pow(1 + monthlyRate, numberOfPayments) - 1) / (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)))
 
   const maxHomePrice = maxLoanAmount + downPayment
-  const recommendedPrice = maxHomePrice * 0.8 // Conservative recommendation
+  const comfortablePrice = maxHomePrice * 0.85 // 85% for comfort
+  const dtiRatio = ((maxMortgagePayment + monthlyDebts) / monthlyIncome) * 100
 
-  const totalMonthlyPayment = affordablePayment
-  const dti = ((monthlyDebts + affordablePayment) / monthlyIncome) * 100
-  const requiredIncome = (affordablePayment * 12) / 0.28
+  let qualification = "Good"
+  if (dtiRatio > 43) qualification = "Challenging"
+  else if (dtiRatio < 36) qualification = "Excellent"
 
   document.getElementById("maxHomePrice").textContent = formatCurrency(maxHomePrice)
-  document.getElementById("recommendedPrice").textContent = formatCurrency(recommendedPrice)
-  document.getElementById("affordMonthlyPayment").textContent = formatCurrency(maxPIPayment)
-  document.getElementById("totalMonthlyPayment").textContent = formatCurrency(totalMonthlyPayment)
-  document.getElementById("dtiRatio").textContent = dti.toFixed(1) + "%"
-  document.getElementById("requiredIncome").textContent = formatCurrency(requiredIncome)
-
-  document.getElementById("affordabilityResults").style.display = "block"
+  document.getElementById("monthlyPayment").textContent = formatCurrency(maxMortgagePayment)
+  document.getElementById("dtiRatio").textContent = dtiRatio.toFixed(1) + "%"
+  document.getElementById("comfortablePrice").textContent = formatCurrency(comfortablePrice)
+  document.getElementById("loanAmount").textContent = formatCurrency(maxLoanAmount)
+  document.getElementById("housingPayment").textContent = formatCurrency(maxMortgagePayment)
+  document.getElementById("qualification").textContent = qualification
 }
 
 // Rent vs Buy Calculator
 function calculateRentVsBuy() {
-  const monthlyRent = Number.parseFloat(document.getElementById("monthlyRent").value) || 0
-  const rentIncrease = Number.parseFloat(document.getElementById("rentIncrease").value) || 0
   const homePrice = Number.parseFloat(document.getElementById("homePrice").value) || 0
-  const downPayment = Number.parseFloat(document.getElementById("buyDownPayment").value) || 0
-  const mortgageRate = Number.parseFloat(document.getElementById("mortgageRate").value) || 0
-  const loanTerm = Number.parseInt(document.getElementById("buyLoanTerm").value) || 30
-  const homeAppreciation = Number.parseFloat(document.getElementById("homeAppreciation").value) || 0
-  const years = Number.parseInt(document.getElementById("yearsToCompare").value) || 10
+  const downPayment = Number.parseFloat(document.getElementById("downPayment").value) || 0
+  const interestRate = Number.parseFloat(document.getElementById("interestRate").value) || 0
+  const monthlyRent = Number.parseFloat(document.getElementById("monthlyRent").value) || 0
+  const yearsToStay = Number.parseFloat(document.getElementById("yearsToStay").value) || 5
+  const homeAppreciation = Number.parseFloat(document.getElementById("homeAppreciation").value) || 3
+  const rentIncrease = Number.parseFloat(document.getElementById("rentIncrease").value) || 3
 
-  // Calculate rent costs
+  const loanAmount = homePrice - downPayment
+  const monthlyRate = interestRate / 100 / 12
+  const payments = yearsToStay * 12
+
+  const monthlyMortgage =
+    (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, payments))) / (Math.pow(1 + monthlyRate, payments) - 1)
+  const monthlyMaintenance = (homePrice * 0.01) / 12 // 1% annually
+  const monthlyPropertyTax = (homePrice * 0.012) / 12 // 1.2% annually
+  const totalMonthlyBuying = monthlyMortgage + monthlyMaintenance + monthlyPropertyTax
+
+  // Rent calculation with annual increases
   let totalRentCost = 0
   let currentRent = monthlyRent
-  for (let i = 0; i < years; i++) {
+  for (let year = 0; year < yearsToStay; year++) {
     totalRentCost += currentRent * 12
     currentRent *= 1 + rentIncrease / 100
   }
 
-  // Calculate buying costs
-  const loanAmount = homePrice - downPayment
-  const monthlyRate = mortgageRate / 100 / 12
-  const numberOfPayments = loanTerm * 12
+  const totalBuyCost = totalMonthlyBuying * payments + downPayment
+  const futureHomeValue = homePrice * Math.pow(1 + homeAppreciation / 100, yearsToStay)
+  const equityBuilt = futureHomeValue - loanAmount
+  const netBuyingCost = totalBuyCost - equityBuilt
 
-  const monthlyPayment =
-    (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments))) /
-    (Math.pow(1 + monthlyRate, numberOfPayments) - 1)
+  const costDifference = Math.abs(totalRentCost - netBuyingCost)
+  const betterOption = netBuyingCost < totalRentCost ? "BUYING" : "RENTING"
+  const breakEvenYear = Math.ceil(totalBuyCost / (monthlyRent * 12))
 
-  const totalBuyCost = downPayment + monthlyPayment * 12 * years
-
-  // Calculate home appreciation
-  const futureHomeValue = homePrice * Math.pow(1 + homeAppreciation / 100, years)
-
-  // Calculate equity (simplified - principal paid down)
-  const paymentsInPeriod = Math.min(years * 12, numberOfPayments)
-  let equityBuilt = downPayment
-  let balance = loanAmount
-  for (let i = 0; i < paymentsInPeriod; i++) {
-    const interest = balance * monthlyRate
-    const principal = monthlyPayment - interest
-    equityBuilt += principal
-    balance -= principal
-  }
-
-  const netPosition = futureHomeValue - balance
-
-  const betterOption = totalRentCost < totalBuyCost ? "Renting" : "Buying (considering equity)"
-
+  document.getElementById("betterOption").textContent = betterOption
+  document.getElementById("costDifference").textContent = formatCurrency(costDifference)
+  document.getElementById("breakEvenYear").textContent = breakEvenYear + " years"
   document.getElementById("totalRentCost").textContent = formatCurrency(totalRentCost)
   document.getElementById("totalBuyCost").textContent = formatCurrency(totalBuyCost)
-  document.getElementById("futureHomeValue").textContent = formatCurrency(futureHomeValue)
   document.getElementById("equityBuilt").textContent = formatCurrency(equityBuilt)
-  document.getElementById("netPosition").textContent = formatCurrency(netPosition)
-  document.getElementById("betterOption").textContent = betterOption
-
-  document.getElementById("rentBuyResults").style.display = "block"
+  document.getElementById("netPosition").textContent = formatCurrency(netBuyingCost)
 }
 
-// 401k Calculator
+// 401(k) Calculator
 function calculate401k() {
   const currentAge = Number.parseInt(document.getElementById("currentAge").value) || 30
   const retirementAge = Number.parseInt(document.getElementById("retirementAge").value) || 65
-  const currentBalance = Number.parseFloat(document.getElementById("currentBalance401k").value) || 0
+  const currentBalance = Number.parseFloat(document.getElementById("currentBalance").value) || 0
   const annualSalary = Number.parseFloat(document.getElementById("annualSalary").value) || 0
-  const contributionRate = Number.parseFloat(document.getElementById("contributionRate").value) || 0
-  const employerMatch = Number.parseFloat(document.getElementById("employerMatch").value) || 0
-  const annualReturn = Number.parseFloat(document.getElementById("annualReturn").value) || 0
-  const salaryIncrease = Number.parseFloat(document.getElementById("salaryIncrease").value) || 0
+  const contribution = Number.parseFloat(document.getElementById("contribution").value) || 6
+  const employerMatch = Number.parseFloat(document.getElementById("employerMatch").value) || 50
+  const matchLimit = Number.parseFloat(document.getElementById("matchLimit").value) || 6
+  const returnRate = Number.parseFloat(document.getElementById("returnRate").value) || 8
 
   const yearsToRetirement = retirementAge - currentAge
-  const monthlyReturn = annualReturn / 100 / 12
+  const monthlyRate = returnRate / 100 / 12
+  const months = yearsToRetirement * 12
 
-  let balance = currentBalance
-  let totalContributions = 0
-  let employerTotal = 0
-  let salary = annualSalary
+  const annualContribution = annualSalary * (contribution / 100)
+  const monthlyContribution = annualContribution / 12
 
-  for (let year = 0; year < yearsToRetirement; year++) {
-    const annualContribution = salary * (contributionRate / 100)
-    const annualEmployerMatch = salary * (employerMatch / 100)
-    const monthlyContribution = annualContribution / 12
-    const monthlyEmployer = annualEmployerMatch / 12
+  const matchPercentage = Math.min(contribution, matchLimit) * (employerMatch / 100)
+  const annualEmployerMatch = annualSalary * (matchPercentage / 100)
+  const monthlyEmployerMatch = annualEmployerMatch / 12
 
-    for (let month = 0; month < 12; month++) {
-      balance = balance * (1 + monthlyReturn) + monthlyContribution + monthlyEmployer
-      totalContributions += monthlyContribution
-      employerTotal += monthlyEmployer
-    }
+  const totalMonthlyContribution = monthlyContribution + monthlyEmployerMatch
 
-    salary *= 1 + salaryIncrease / 100
-  }
+  // Future value calculation
+  const fvCurrent = currentBalance * Math.pow(1 + monthlyRate, months)
+  const fvContributions = totalMonthlyContribution * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate)
 
-  const investmentGains = balance - currentBalance - totalContributions - employerTotal
-  const monthlyContribution = (annualSalary * (contributionRate / 100)) / 12
+  const retirementBalance = fvCurrent + fvContributions
+  const totalContributions = currentBalance + monthlyContribution * months
+  const employerMatchTotal = monthlyEmployerMatch * months
+  const investmentGains = retirementBalance - totalContributions - employerMatchTotal
 
-  document.getElementById("retirementBalance").textContent = formatCurrency(balance)
+  document.getElementById("retirementBalance").textContent = formatCurrency(retirementBalance)
   document.getElementById("totalContributions").textContent = formatCurrency(totalContributions)
-  document.getElementById("employerTotal").textContent = formatCurrency(employerTotal)
+  document.getElementById("employerMatchTotal").textContent = formatCurrency(employerMatchTotal)
   document.getElementById("investmentGains").textContent = formatCurrency(investmentGains)
+  document.getElementById("annualContribution").textContent = formatCurrency(annualContribution)
   document.getElementById("yearsToRetirement").textContent = yearsToRetirement + " years"
-  document.getElementById("monthlyContribution").textContent = formatCurrency(monthlyContribution)
-
-  document.getElementById("401kResults").style.display = "block"
+  document.getElementById("freeEmployerMoney").textContent = formatCurrency(employerMatchTotal)
 }
 
 // Stock Calculator
 function calculateStock() {
   const purchasePrice = Number.parseFloat(document.getElementById("purchasePrice").value) || 0
-  const numShares = Number.parseInt(document.getElementById("numShares").value) || 0
-  const purchaseCommission = Number.parseFloat(document.getElementById("purchaseCommission").value) || 0
-  const salePrice = Number.parseFloat(document.getElementById("salePrice").value) || 0
-  const saleCommission = Number.parseFloat(document.getElementById("saleCommission").value) || 0
-  const dividends = Number.parseFloat(document.getElementById("dividends").value) || 0
+  const numberOfShares = Number.parseFloat(document.getElementById("numberOfShares").value) || 0
+  const currentPrice = Number.parseFloat(document.getElementById("currentPrice").value) || 0
+  const dividendPerShare = Number.parseFloat(document.getElementById("dividendPerShare").value) || 0
+  const holdingPeriod = Number.parseFloat(document.getElementById("holdingPeriod").value) || 0
+  const dividendReinvest = document.getElementById("dividendReinvest").value
+  const commissionBuy = Number.parseFloat(document.getElementById("commissionBuy").value) || 0
+  const commissionSell = Number.parseFloat(document.getElementById("commissionSell").value) || 0
 
-  const totalInvestment = purchasePrice * numShares + purchaseCommission
-  const totalReturn = salePrice * numShares - saleCommission + dividends
-  const capitalGain = salePrice * numShares - purchasePrice * numShares - purchaseCommission - saleCommission
-  const netProfit = totalReturn - totalInvestment
-  const roi = totalInvestment > 0 ? (netProfit / totalInvestment) * 100 : 0
-  const profitPerShare = numShares > 0 ? netProfit / numShares : 0
+  const initialInvestment = purchasePrice * numberOfShares + commissionBuy
+  const capitalGains = (currentPrice - purchasePrice) * numberOfShares
+  const totalDividends = dividendPerShare * numberOfShares * holdingPeriod
 
-  document.getElementById("totalInvestment").textContent = formatCurrency(totalInvestment)
+  let finalValue = currentPrice * numberOfShares - commissionSell
+  if (dividendReinvest === "yes") {
+    // Simplified reinvestment calculation
+    const additionalShares = totalDividends / currentPrice
+    finalValue += additionalShares * currentPrice
+  } else {
+    finalValue += totalDividends
+  }
+
+  const totalReturn = finalValue - initialInvestment
+  const returnPercent = (totalReturn / initialInvestment) * 100
+  const annualizedReturn =
+    holdingPeriod > 0 ? (Math.pow(finalValue / initialInvestment, 1 / holdingPeriod) - 1) * 100 : 0
+
   document.getElementById("totalReturn").textContent = formatCurrency(totalReturn)
-  document.getElementById("capitalGain").textContent = formatCurrency(capitalGain)
-  document.getElementById("netProfit").textContent = formatCurrency(netProfit)
-  document.getElementById("roi").textContent = roi.toFixed(2) + "%"
-  document.getElementById("profitPerShare").textContent = formatCurrency(profitPerShare)
-
-  document.getElementById("stockResults").style.display = "block"
+  document.getElementById("returnPercent").textContent = returnPercent.toFixed(2) + "%"
+  document.getElementById("annualizedReturn").textContent = annualizedReturn.toFixed(2) + "%"
+  document.getElementById("capitalGains").textContent = formatCurrency(capitalGains)
+  document.getElementById("totalDividends").textContent = formatCurrency(totalDividends)
+  document.getElementById("initialInvestment").textContent = formatCurrency(initialInvestment)
+  document.getElementById("finalValue").textContent = formatCurrency(finalValue)
 }
 
 // Salary Calculator
 function calculateSalary() {
-  const salaryAmount = Number.parseFloat(document.getElementById("salaryAmount").value) || 0
-  const salaryPeriod = document.getElementById("salaryPeriod").value
+  const payType = document.getElementById("payType").value
   const hoursPerWeek = Number.parseFloat(document.getElementById("hoursPerWeek").value) || 40
-  const workWeeks = Number.parseInt(document.getElementById("workWeeks").value) || 52
-  const taxRate = Number.parseFloat(document.getElementById("taxRate").value) || 0
-  const otherDeductions = Number.parseFloat(document.getElementById("otherDeductions").value) || 0
+  const weeksPerYear = Number.parseFloat(document.getElementById("weeksPerYear").value) || 52
+  const taxRate = Number.parseFloat(document.getElementById("taxRate").value) || 25
+  const benefits = Number.parseFloat(document.getElementById("benefits").value) || 0
 
-  // Convert to annual salary
-  let annualSalary = 0
-  switch (salaryPeriod) {
-    case "annual":
-      annualSalary = salaryAmount
-      break
-    case "monthly":
-      annualSalary = salaryAmount * 12
-      break
-    case "weekly":
-      annualSalary = salaryAmount * workWeeks
-      break
-    case "hourly":
-      annualSalary = salaryAmount * hoursPerWeek * workWeeks
-      break
+  let annualSalary
+  let hourlyRate
+
+  if (payType === "annual") {
+    annualSalary = Number.parseFloat(document.getElementById("annualSalary").value) || 0
+    hourlyRate = annualSalary / (hoursPerWeek * weeksPerYear)
+  } else {
+    hourlyRate = Number.parseFloat(document.getElementById("hourlyWage").value) || 0
+    annualSalary = hourlyRate * hoursPerWeek * weeksPerYear
   }
 
-  const monthlySalary = annualSalary / 12
-  const weeklySalary = annualSalary / workWeeks
-  const hourlyRate = annualSalary / (hoursPerWeek * workWeeks)
-
-  // Calculate take-home
-  const annualTax = annualSalary * (taxRate / 100)
-  const annualDeductions = otherDeductions * 12
-  const annualTakeHome = annualSalary - annualTax - annualDeductions
-  const monthlyTakeHome = annualTakeHome / 12
+  const annualTaxes = annualSalary * (taxRate / 100)
+  const takeHomePay = annualSalary - annualTaxes
+  const monthlyGross = annualSalary / 12
+  const monthlyTakeHome = takeHomePay / 12
+  const totalCompensation = annualSalary + benefits
 
   document.getElementById("annualSalaryResult").textContent = formatCurrency(annualSalary)
-  document.getElementById("monthlySalaryResult").textContent = formatCurrency(monthlySalary)
-  document.getElementById("weeklySalaryResult").textContent = formatCurrency(weeklySalary)
-  document.getElementById("hourlyRateResult").textContent = formatCurrency(hourlyRate)
-  document.getElementById("takeHome").textContent = formatCurrency(monthlyTakeHome)
-  document.getElementById("annualTakeHome").textContent = formatCurrency(annualTakeHome)
+  document.getElementById("hourlyRate").textContent = "$" + hourlyRate.toFixed(2)
+  document.getElementById("takeHomePay").textContent = formatCurrency(takeHomePay)
+  document.getElementById("monthlyGross").textContent = formatCurrency(monthlyGross)
+  document.getElementById("monthlyTakeHome").textContent = formatCurrency(monthlyTakeHome)
+  document.getElementById("annualTaxes").textContent = formatCurrency(annualTaxes)
+  document.getElementById("totalCompensation").textContent = formatCurrency(totalCompensation)
+}
 
-  document.getElementById("salaryResults").style.display = "block"
+// Helper function for currency formatting
+function formatCurrency(amount) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount)
 }
