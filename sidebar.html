@@ -1,0 +1,54 @@
+<aside class="sidebar" id="sidebar">
+    <button class="sidebar-close" onclick="toggleSidebar()" aria-label="Close sidebar">×</button>
+    
+    <div class="sidebar-section">
+        <h3 class="sidebar-title">QUICK LINKS</h3>
+        <ul class="sidebar-links">
+            <li><a href="index.html" class="sidebar-link">🏠 Home</a></li>
+            <li><a href="all-calculators.html" class="sidebar-link">🧮 All Calculators</a></li>
+            <li><a href="about.html" class="sidebar-link">ℹ️ About</a></li>
+            <li><a href="contact.html" class="sidebar-link">✉️ Contact</a></li>
+        </ul>
+    </div>
+    
+    <div class="sidebar-section">
+        <h3 class="sidebar-title">CATEGORIES</h3>
+        <ul class="sidebar-links">
+            <li><a href="#" class="sidebar-link" onclick="filterCalculators('loans')">💰 Loans</a></li>
+            <li><a href="#" class="sidebar-link" onclick="filterCalculators('investments')">📈 Investments</a></li>
+            <li><a href="#" class="sidebar-link" onclick="filterCalculators('retirement')">🏖️ Retirement</a></li>
+            <li><a href="#" class="sidebar-link" onclick="filterCalculators('savings')">🏦 Savings</a></li>
+            <li><a href="#" class="sidebar-link" onclick="filterCalculators('mortgage')">🏠 Mortgage</a></li>
+        </ul>
+    </div>
+    
+    <div class="sidebar-section">
+        <h3 class="sidebar-title">POPULAR</h3>
+        <ul class="sidebar-links">
+            <li><a href="mortgage-calculator.html" class="sidebar-link">Mortgage Calculator</a></li>
+            <li><a href="loan-calculator.html" class="sidebar-link">Loan Calculator</a></li>
+            <li><a href="compound-interest.html" class="sidebar-link">Compound Interest</a></li>
+        </ul>
+    </div>
+</aside>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Open sidebar">
+    ☰
+</button>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+    
+    function filterCalculators(category) {
+        console.log('Filtering by:', category);
+        toggleSidebar();
+        // Filter logic would go here
+    }
+</script>

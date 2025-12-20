@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Calculators - 20+ Free Financial Tools | CD Calculator</title>
+    <meta name="description" content="Browse all 20+ free financial calculators including mortgage, loan, investment, retirement, savings, and more. Find the perfect calculator for your needs.">
+    <meta name="keywords" content="financial calculators, all calculators, finance tools, money calculators">
+    <link rel="canonical" href="https://cdcalculator.github.io/all-calculators.html">
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
+        <section class="page-hero">
+            <h1 class="page-title">ALL CALCULATORS</h1>
+            <p class="page-subtitle">Choose from 20+ professional financial calculators</p>
+        </section>
+        
+        <section class="search-section">
+            <input type="search" class="search-input" placeholder="Search calculators..." id="searchInput">
+        </section>
+        
+        <section class="calculators-section">
+            <div id="calculators-grid" class="calculators-grid"></div>
+        </section>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        loadCalculators();
+        
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.calculator-card');
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+                if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

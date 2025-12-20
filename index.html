@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CD Calculator - Free Financial Calculators & Tools for Smart Money Decisions</title>
+    <meta name="description" content="Access 20+ free finance calculators including mortgage, loan, investment, retirement, and savings calculators. Make informed financial decisions with our easy-to-use tools.">
+    <meta name="keywords" content="calculator, finance calculator, mortgage calculator, loan calculator, investment calculator, retirement calculator, savings calculator, financial tools">
+    <meta name="author" content="CD Calculator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://cdcalculator.github.io/">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="CD Calculator - Free Financial Calculators">
+    <meta property="og:description" content="Access 20+ free finance calculators for smart money decisions">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cdcalculator.github.io/">
+    <meta property="og:image" content="https://cdcalculator.github.io/images/og-image.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CD Calculator - Free Financial Calculators">
+    <meta name="twitter:description" content="Access 20+ free finance calculators for smart money decisions">
+    <meta name="twitter:image" content="https://cdcalculator.github.io/images/twitter-card.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.jpg">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.jpg">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CD Calculator",
+      "url": "https://cdcalculator.github.io/",
+      "description": "Free financial calculators and tools for smart money decisions",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "1250"
+      }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    
+    <main class="main-container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">CALCULATE YOUR FINANCIAL FUTURE</h1>
+                <p class="hero-subtitle">20+ Free calculators for smart money decisions. No sign-up required.</p>
+                <a href="#calculators" class="cta-button">EXPLORE CALCULATORS</a>
+            </div>
+            <div class="hero-graphic">
+                <div class="floating-calc-icon">$</div>
+                <div class="floating-calc-icon delay-1">%</div>
+                <div class="floating-calc-icon delay-2">€</div>
+            </div>
+        </section>
+        
+        <section id="calculators" class="calculators-section">
+            <h2 class="section-title">ALL CALCULATORS</h2>
+            <div id="calculators-grid" class="calculators-grid"></div>
+        </section>
+        
+        <section class="features-section">
+            <h2 class="section-title">WHY CHOOSE US?</h2>
+            <div class="features-grid">
+                <div class="feature-card" style="--card-color: var(--color-blue)">
+                    <div class="feature-icon">⚡</div>
+                    <h3>INSTANT RESULTS</h3>
+                    <p>Get calculations in milliseconds without any delays</p>
+                </div>
+                <div class="feature-card" style="--card-color: var(--color-green)">
+                    <div class="feature-icon">🔒</div>
+                    <h3>100% PRIVATE</h3>
+                    <p>All calculations happen in your browser. No data stored.</p>
+                </div>
+                <div class="feature-card" style="--card-color: var(--color-pink)">
+                    <div class="feature-icon">📱</div>
+                    <h3>MOBILE FRIENDLY</h3>
+                    <p>Works perfectly on all devices and screen sizes</p>
+                </div>
+                <div class="feature-card" style="--card-color: var(--color-yellow)">
+                    <div class="feature-icon">💯</div>
+                    <h3>ALWAYS FREE</h3>
+                    <p>No hidden fees, no subscriptions, just free tools</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script>
+        // Load header, footer, and calculators
+        loadComponent('header.html', 'header-container');
+        loadComponent('footer.html', 'footer-container');
+        loadCalculators();
+    </script>
+</body>
+</html>

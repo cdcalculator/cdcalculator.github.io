@@ -1,0 +1,28 @@
+<header class="site-header">
+    <div class="header-content">
+        <div class="logo-section">
+            <img src="logo.svg" alt="CD Calculator Logo" class="logo-image">
+            <span class="logo-text">CD CALCULATOR</span>
+        </div>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="main-nav" id="mainNav">
+            <a href="index.html" class="nav-link active">HOME</a>
+            <a href="all-calculators.html" class="nav-link">ALL CALCULATORS</a>
+            <a href="about.html" class="nav-link">ABOUT</a>
+            <a href="contact.html" class="nav-link">CONTACT</a>
+        </nav>
+    </div>
+</header>
+
+<script>
+    // Mobile menu toggle
+    document.getElementById('mobileMenuToggle')?.addEventListener('click', function() {
+        const nav = document.getElementById('mainNav');
+        nav.classList.toggle('active');
+        this.classList.toggle('active');
+    });
+</script>
