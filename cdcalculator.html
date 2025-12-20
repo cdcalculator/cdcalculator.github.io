@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CD Calculator - Certificate of Deposit Calculator | CD Calculator</title>
+    <meta name="description" content="Free Certificate of Deposit (CD) calculator. Calculate your CD returns, interest earned, and final balance with compound interest calculations.">
+    <meta name="keywords" content="cd calculator, certificate of deposit calculator, cd interest calculator, cd return calculator">
+    <link rel="canonical" href="https://cdcalculator.github.io/cdcalculator.html">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Certificate of Deposit Calculator",
+      "applicationCategory": "FinanceApplication",
+      "description": "Calculate CD returns with compound interest. See your total earnings and final balance for certificates of deposit.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Compound interest calculation, Multiple term lengths, APY conversion, Interest earned breakdown"
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
+        <div class="calculator-page">
+            <div class="calculator-header">
+                <h1 class="calculator-title">CERTIFICATE OF DEPOSIT CALCULATOR</h1>
+                <p class="calculator-description">Calculate your CD returns and interest earnings</p>
+            </div>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="depositAmount">Initial Deposit ($)</label>
+                        <input type="number" id="depositAmount" value="10000" min="0" step="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cdTerm">CD Term (months)</label>
+                        <select id="cdTerm">
+                            <option value="3">3 months</option>
+                            <option value="6">6 months</option>
+                            <option value="12" selected>12 months</option>
+                            <option value="24">24 months</option>
+                            <option value="36">36 months</option>
+                            <option value="60">60 months</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interestRate">Annual Interest Rate (%)</label>
+                        <input type="number" id="interestRate" value="5.0" min="0" max="20" step="0.1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="compounding">Compounding Frequency</label>
+                        <select id="compounding">
+                            <option value="1">Annually</option>
+                            <option value="2">Semi-Annually</option>
+                            <option value="4">Quarterly</option>
+                            <option value="12" selected>Monthly</option>
+                            <option value="365">Daily</option>
+                        </select>
+                    </div>
+                    
+                    <button class="calculate-button" onclick="calculateCD()">CALCULATE</button>
+                </div>
+                
+                <div class="calculator-results" id="results">
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Final Balance</div>
+                        <div class="result-value" id="finalBalance">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Interest Earned</div>
+                        <div class="result-value" id="interestEarned">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">APY (Annual %)</div>
+                        <div class="result-value" id="apy">0%</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <h3>CD Summary</h3>
+                        <div class="breakdown-item">
+                            <span>Initial Deposit:</span>
+                            <span id="principalAmount">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Term Length:</span>
+                            <span id="termLength">0 months</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Maturity Date:</span>
+                            <span id="maturityDate">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-sections">
+                <div class="info-card" style="--card-color: var(--color-blue)">
+                    <h2>How to Use the CD Calculator</h2>
+                    <ol>
+                        <li>Enter your initial deposit amount</li>
+                        <li>Select the CD term length (3 to 60 months)</li>
+                        <li>Input the annual interest rate offered by your bank</li>
+                        <li>Choose the compounding frequency</li>
+                        <li>Click "Calculate" to see your returns</li>
+                    </ol>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Accurate compound interest calculations</li>
+                        <li>Multiple term lengths from 3 to 60 months</li>
+                        <li>Various compounding frequencies</li>
+                        <li>APY (Annual Percentage Yield) calculation</li>
+                        <li>Maturity date estimation</li>
+                        <li>Interest earned breakdown</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>About Certificate of Deposit</h2>
+                    <p>A Certificate of Deposit (CD) is a savings product offered by banks that pays a fixed interest rate for a specified term. CDs typically offer higher interest rates than regular savings accounts in exchange for keeping your money deposited for a fixed period.</p>
+                    <p>The interest on CDs compounds over time, meaning you earn interest on your interest. The compounding frequency affects your total returns - more frequent compounding results in higher earnings.</p>
+                    <p>CDs are FDIC-insured up to $250,000, making them a safe investment option. Early withdrawal typically results in penalties, so it's important to choose a term length that matches your financial goals.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateCD();
+    </script>
+</body>
+</html>

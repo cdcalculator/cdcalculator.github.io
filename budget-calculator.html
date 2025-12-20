@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Calculator - Monthly Budget Planner | CD Calculator</title>
+    <meta name="description" content="Free budget calculator. Track income and expenses, create a balanced budget, and see your monthly spending breakdown.">
+    <meta name="keywords" content="budget calculator, monthly budget planner, expense calculator, income tracker">
+    <link rel="canonical" href="https://cdcalculator.github.io/budget-calculator.html">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Budget Calculator",
+      "applicationCategory": "FinanceApplication",
+      "description": "Create and manage monthly budgets. Track income, expenses, and savings goals with detailed category breakdowns.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Income tracking, Expense categorization, Savings calculation, Budget balance analysis"
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
+        <div class="calculator-page">
+            <div class="calculator-header">
+                <h1 class="calculator-title">BUDGET CALCULATOR</h1>
+                <p class="calculator-description">Plan your monthly budget and track expenses</p>
+            </div>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <h3 style="color: var(--color-blue); margin-bottom: 1rem;">INCOME</h3>
+                    <div class="form-group">
+                        <label for="salary">Monthly Salary ($)</label>
+                        <input type="number" id="salary" value="5000" min="0" step="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="otherIncome">Other Income ($)</label>
+                        <input type="number" id="otherIncome" value="0" min="0" step="50">
+                    </div>
+                    
+                    <h3 style="color: var(--color-red); margin: 1.5rem 0 1rem;">EXPENSES</h3>
+                    <div class="form-group">
+                        <label for="housing">Housing ($)</label>
+                        <input type="number" id="housing" value="1500" min="0" step="50">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="utilities">Utilities ($)</label>
+                        <input type="number" id="utilities" value="200" min="0" step="10">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="food">Food & Groceries ($)</label>
+                        <input type="number" id="food" value="600" min="0" step="50">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="transportation">Transportation ($)</label>
+                        <input type="number" id="transportation" value="400" min="0" step="50">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="entertainment">Entertainment ($)</label>
+                        <input type="number" id="entertainment" value="300" min="0" step="25">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="otherExpenses">Other Expenses ($)</label>
+                        <input type="number" id="otherExpenses" value="200" min="0" step="25">
+                    </div>
+                    
+                    <button class="calculate-button" onclick="calculateBudget()">CALCULATE</button>
+                </div>
+                
+                <div class="calculator-results">
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Total Income</div>
+                        <div class="result-value" id="totalIncome">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-red)">
+                        <div class="result-label">Total Expenses</div>
+                        <div class="result-value" id="totalExpenses">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Net Balance</div>
+                        <div class="result-value" id="netBalance">$0</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <h3>Budget Analysis</h3>
+                        <div class="breakdown-item">
+                            <span>Savings Rate:</span>
+                            <span id="savingsRate">0%</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Housing Ratio:</span>
+                            <span id="housingRatio">0%</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Status:</span>
+                            <span id="budgetStatus">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-sections">
+                <div class="info-card" style="--card-color: var(--color-blue)">
+                    <h2>How to Use the Budget Calculator</h2>
+                    <ol>
+                        <li>Enter your total monthly salary</li>
+                        <li>Add any additional income sources</li>
+                        <li>Input your housing costs (rent/mortgage)</li>
+                        <li>Fill in utilities and essential expenses</li>
+                        <li>Add food, transportation, and entertainment costs</li>
+                        <li>Include any other monthly expenses</li>
+                        <li>Click "Calculate" to see your budget balance</li>
+                    </ol>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Comprehensive income tracking</li>
+                        <li>Detailed expense categorization</li>
+                        <li>Automatic net balance calculation</li>
+                        <li>Savings rate percentage</li>
+                        <li>Housing cost ratio analysis</li>
+                        <li>Budget status indicator</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>About Budget Planning</h2>
+                    <p>A budget is a financial plan that helps you manage income and expenses. Following the 50/30/20 rule is popular: allocate 50% to needs, 30% to wants, and 20% to savings and debt repayment.</p>
+                    <p>Your housing costs should ideally not exceed 30% of your gross income. Tracking expenses helps identify areas where you can cut back and save more. Regular budget reviews ensure you stay on track with financial goals.</p>
+                    <p>Building an emergency fund of 3-6 months of expenses should be a priority. Once established, focus on retirement savings and debt elimination for long-term financial health.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateBudget();
+    </script>
+</body>
+</html>

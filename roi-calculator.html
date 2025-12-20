@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI Calculator - Return on Investment Calculator | CD Calculator</title>
+    <meta name="description" content="Free ROI calculator. Calculate return on investment, investment gain, and ROI percentage for any investment.">
+    <meta name="keywords" content="roi calculator, return on investment calculator, investment return calculator">
+    <link rel="canonical" href="https://cdcalculator.github.io/roi-calculator.html">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "ROI Calculator",
+      "applicationCategory": "FinanceApplication",
+      "description": "Calculate return on investment with detailed gain analysis. Measure investment performance and profitability.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "ROI percentage calculation, Investment gain tracking, Annualized return calculation, Multiple investment comparison"
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
+        <div class="calculator-page">
+            <div class="calculator-header">
+                <h1 class="calculator-title">ROI CALCULATOR</h1>
+                <p class="calculator-description">Calculate return on investment and investment performance</p>
+            </div>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="initialInvestment">Initial Investment ($)</label>
+                        <input type="number" id="initialInvestment" value="10000" min="0" step="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="finalValue">Final Value ($)</label>
+                        <input type="number" id="finalValue" value="15000" min="0" step="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="additionalCosts">Additional Costs ($)</label>
+                        <input type="number" id="additionalCosts" value="0" min="0" step="50">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="investmentPeriod">Investment Period (years)</label>
+                        <input type="number" id="investmentPeriod" value="5" min="0.1" step="0.5">
+                    </div>
+                    
+                    <button class="calculate-button" onclick="calculateROI()">CALCULATE</button>
+                </div>
+                
+                <div class="calculator-results">
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">ROI Percentage</div>
+                        <div class="result-value" id="roiPercent">0%</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Investment Gain</div>
+                        <div class="result-value" id="investmentGain">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">Annualized Return</div>
+                        <div class="result-value" id="annualizedReturn">0%</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <h3>Investment Summary</h3>
+                        <div class="breakdown-item">
+                            <span>Total Investment:</span>
+                            <span id="totalInvested">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Net Profit:</span>
+                            <span id="netProfit">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Performance:</span>
+                            <span id="performance">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-sections">
+                <div class="info-card" style="--card-color: var(--color-blue)">
+                    <h2>How to Use the ROI Calculator</h2>
+                    <ol>
+                        <li>Enter your initial investment amount</li>
+                        <li>Input the final or current value of investment</li>
+                        <li>Add any additional costs (fees, taxes, etc.)</li>
+                        <li>Specify the investment period in years</li>
+                        <li>Click "Calculate" to see your ROI metrics</li>
+                    </ol>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Accurate ROI percentage calculation</li>
+                        <li>Investment gain and loss tracking</li>
+                        <li>Annualized return computation</li>
+                        <li>Additional costs inclusion</li>
+                        <li>Performance rating system</li>
+                        <li>Net profit calculation</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>About Return on Investment</h2>
+                    <p>ROI (Return on Investment) is a performance measure used to evaluate the efficiency and profitability of an investment. It's calculated as: ROI = (Final Value - Total Investment) / Total Investment × 100.</p>
+                    <p>A positive ROI indicates profit, while negative ROI shows a loss. The annualized return normalizes ROI over time, making it easier to compare investments with different time horizons. For example, a 50% ROI over 5 years is different from 50% over 1 year.</p>
+                    <p>Always include all costs in your ROI calculation, including transaction fees, management fees, taxes, and opportunity costs. This gives you a true picture of investment performance.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateROI();
+    </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Loan Calculator - Education Loan Payment | CD Calculator</title>
+    <meta name="description" content="Free student loan calculator. Calculate monthly student loan payments, total interest, and payoff timeline.">
+    <meta name="keywords" content="student loan calculator, education loan calculator, student debt calculator">
+    <link rel="canonical" href="https://cdcalculator.github.io/student-loan-calculator.html">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Student Loan Calculator",
+      "applicationCategory": "FinanceApplication",
+      "description": "Calculate student loan payments with grace period and deferment options. Plan your education debt repayment strategy.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Monthly payment calculation, Grace period consideration, Multiple loan consolidation, Interest accrual tracking"
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
+        <div class="calculator-page">
+            <div class="calculator-header">
+                <h1 class="calculator-title">STUDENT LOAN CALCULATOR</h1>
+                <p class="calculator-description">Calculate student loan payments and repayment timeline</p>
+            </div>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="loanAmount">Total Loan Amount ($)</label>
+                        <input type="number" id="loanAmount" value="30000" min="0" step="500">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interestRate">Interest Rate (%)</label>
+                        <input type="number" id="interestRate" value="5.5" min="0" max="15" step="0.1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loanTerm">Repayment Period (years)</label>
+                        <select id="loanTerm">
+                            <option value="10" selected>10 years</option>
+                            <option value="15">15 years</option>
+                            <option value="20">20 years</option>
+                            <option value="25">25 years</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gracePeriod">Grace Period (months)</label>
+                        <input type="number" id="gracePeriod" value="6" min="0" max="12">
+                    </div>
+                    
+                    <button class="calculate-button" onclick="calculateStudentLoan()">CALCULATE</button>
+                </div>
+                
+                <div class="calculator-results">
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Monthly Payment</div>
+                        <div class="result-value" id="monthlyPayment">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-red)">
+                        <div class="result-label">Total Interest</div>
+                        <div class="result-value" id="totalInterest">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Total Repaid</div>
+                        <div class="result-value" id="totalRepaid">$0</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <h3>Loan Summary</h3>
+                        <div class="breakdown-item">
+                            <span>First Payment Date:</span>
+                            <span id="firstPayment">-</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Payoff Date:</span>
+                            <span id="payoffDate">-</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Interest During Grace:</span>
+                            <span id="graceInterest">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-sections">
+                <div class="info-card" style="--card-color: var(--color-blue)">
+                    <h2>How to Use the Student Loan Calculator</h2>
+                    <ol>
+                        <li>Enter your total student loan amount</li>
+                        <li>Input your loan interest rate</li>
+                        <li>Select your repayment period</li>
+                        <li>Add grace period if applicable</li>
+                        <li>Click "Calculate" to see payment details</li>
+                    </ol>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Monthly payment calculation</li>
+                        <li>Grace period consideration</li>
+                        <li>Total interest cost projection</li>
+                        <li>Payment timeline estimation</li>
+                        <li>Multiple repayment term options</li>
+                        <li>Interest accrual during grace period</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>About Student Loans</h2>
+                    <p>Student loans help finance education but require careful repayment planning. Most federal student loans offer a 6-month grace period after graduation before payments begin, though interest may accrue during this time.</p>
+                    <p>Standard repayment plans span 10 years, but extended plans up to 25 years are available for lower monthly payments at the cost of higher total interest. Income-driven repayment plans base payments on your income and family size.</p>
+                    <p>Consider making extra payments toward principal to reduce total interest costs. Even small additional payments can significantly shorten your repayment timeline and save thousands in interest.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateStudentLoan();
+    </script>
+</body>
+</html>

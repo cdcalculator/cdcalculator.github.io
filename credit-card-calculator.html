@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Payoff Calculator - Debt Payoff | CD Calculator</title>
+    <meta name="description" content="Free credit card payoff calculator. Calculate how long it will take to pay off credit card debt and see total interest costs.">
+    <meta name="keywords" content="credit card calculator, debt payoff calculator, credit card interest calculator">
+    <link rel="canonical" href="https://cdcalculator.github.io/credit-card-calculator.html">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Credit Card Payoff Calculator",
+      "applicationCategory": "FinanceApplication",
+      "description": "Calculate credit card payoff time and total interest. Plan your debt elimination strategy with monthly payment projections.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Payoff timeline calculation, Interest cost tracking, Monthly payment planning, Debt-free date estimation"
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
+        <div class="calculator-page">
+            <div class="calculator-header">
+                <h1 class="calculator-title">CREDIT CARD PAYOFF CALCULATOR</h1>
+                <p class="calculator-description">Calculate how long it will take to pay off your credit card debt</p>
+            </div>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="balance">Current Balance ($)</label>
+                        <input type="number" id="balance" value="5000" min="0" step="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="apr">Annual Interest Rate (APR %)</label>
+                        <input type="number" id="apr" value="18" min="0" max="35" step="0.1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="monthlyPayment">Monthly Payment ($)</label>
+                        <input type="number" id="monthlyPayment" value="200" min="0" step="10">
+                    </div>
+                    
+                    <button class="calculate-button" onclick="calculateCreditCard()">CALCULATE</button>
+                </div>
+                
+                <div class="calculator-results">
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Payoff Time</div>
+                        <div class="result-value" id="payoffTime">0 months</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-red)">
+                        <div class="result-label">Total Interest</div>
+                        <div class="result-value" id="totalInterest">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">Total Paid</div>
+                        <div class="result-value" id="totalPaid">$0</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <h3>Payoff Summary</h3>
+                        <div class="breakdown-item">
+                            <span>Debt-Free Date:</span>
+                            <span id="debtFreeDate">-</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Monthly Interest Rate:</span>
+                            <span id="monthlyRate">0%</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Interest vs Principal:</span>
+                            <span id="interestRatio">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-sections">
+                <div class="info-card" style="--card-color: var(--color-blue)">
+                    <h2>How to Use the Credit Card Payoff Calculator</h2>
+                    <ol>
+                        <li>Enter your current credit card balance</li>
+                        <li>Input your annual interest rate (APR)</li>
+                        <li>Enter your planned monthly payment amount</li>
+                        <li>Click "Calculate" to see your payoff timeline</li>
+                        <li>Adjust payment amounts to see different scenarios</li>
+                    </ol>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Accurate payoff timeline calculation</li>
+                        <li>Total interest cost projection</li>
+                        <li>Debt-free date estimation</li>
+                        <li>Monthly interest rate breakdown</li>
+                        <li>Interest vs principal ratio analysis</li>
+                        <li>Scenario planning capabilities</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>About Credit Card Debt Payoff</h2>
+                    <p>Credit card debt can be overwhelming due to high interest rates. Understanding how long it will take to pay off your debt helps you create a realistic repayment plan and stay motivated.</p>
+                    <p>Paying more than the minimum payment dramatically reduces both the payoff time and total interest paid. Even small increases in monthly payments can save thousands of dollars over time. The calculator shows you exactly how different payment amounts affect your debt freedom timeline.</p>
+                    <p>Consider the debt avalanche method (paying off highest interest cards first) or debt snowball method (paying off smallest balances first) to accelerate your debt payoff journey.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateCreditCard();
+    </script>
+</body>
+</html>

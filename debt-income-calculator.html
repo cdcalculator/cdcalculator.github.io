@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debt-to-Income Calculator - DTI Ratio | CD Calculator</title>
+    <meta name="description" content="Free debt-to-income ratio calculator. Calculate your DTI ratio to see if you qualify for loans and mortgages.">
+    <meta name="keywords" content="debt to income calculator, dti calculator, debt ratio calculator">
+    <link rel="canonical" href="https://cdcalculator.github.io/debt-income-calculator.html">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Debt-to-Income Ratio Calculator",
+      "applicationCategory": "FinanceApplication",
+      "description": "Calculate debt-to-income ratio for mortgage and loan qualification. Track front-end and back-end DTI ratios.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "DTI ratio calculation, Front-end and back-end ratios, Loan qualification assessment, Financial health analysis"
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
+        <div class="calculator-page">
+            <div class="calculator-header">
+                <h1 class="calculator-title">DEBT-TO-INCOME CALCULATOR</h1>
+                <p class="calculator-description">Calculate your DTI ratio for loan qualification</p>
+            </div>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <h3 style="color: var(--color-blue); margin-bottom: 1rem;">MONTHLY INCOME</h3>
+                    <div class="form-group">
+                        <label for="grossIncome">Gross Monthly Income ($)</label>
+                        <input type="number" id="grossIncome" value="6000" min="0" step="100">
+                    </div>
+                    
+                    <h3 style="color: var(--color-red); margin: 1.5rem 0 1rem;">MONTHLY DEBTS</h3>
+                    <div class="form-group">
+                        <label for="mortgageRent">Mortgage/Rent Payment ($)</label>
+                        <input type="number" id="mortgageRent" value="1500" min="0" step="50">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="carPayment">Car Loan Payment ($)</label>
+                        <input type="number" id="carPayment" value="400" min="0" step="25">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="creditCards">Credit Card Payments ($)</label>
+                        <input type="number" id="creditCards" value="200" min="0" step="25">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="otherDebts">Other Debt Payments ($)</label>
+                        <input type="number" id="otherDebts" value="150" min="0" step="25">
+                    </div>
+                    
+                    <button class="calculate-button" onclick="calculateDTI()">CALCULATE</button>
+                </div>
+                
+                <div class="calculator-results">
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Front-End DTI</div>
+                        <div class="result-value" id="frontEndDTI">0%</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">Back-End DTI</div>
+                        <div class="result-value" id="backEndDTI">0%</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Qualification</div>
+                        <div class="result-value" id="qualification" style="font-size: 1.8rem;">-</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <h3>DTI Analysis</h3>
+                        <div class="breakdown-item">
+                            <span>Total Monthly Debts:</span>
+                            <span id="totalDebts">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Available Income:</span>
+                            <span id="availableIncome">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Debt Capacity:</span>
+                            <span id="debtCapacity">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-sections">
+                <div class="info-card" style="--card-color: var(--color-blue)">
+                    <h2>How to Use the DTI Calculator</h2>
+                    <ol>
+                        <li>Enter your gross monthly income</li>
+                        <li>Input your monthly mortgage or rent payment</li>
+                        <li>Add car loan and credit card payments</li>
+                        <li>Include all other monthly debt obligations</li>
+                        <li>Click "Calculate" to see your DTI ratios</li>
+                    </ol>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Front-end DTI calculation (housing only)</li>
+                        <li>Back-end DTI calculation (all debts)</li>
+                        <li>Loan qualification assessment</li>
+                        <li>Available income analysis</li>
+                        <li>Debt capacity recommendation</li>
+                        <li>Financial health indicator</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>About Debt-to-Income Ratio</h2>
+                    <p>Debt-to-Income (DTI) ratio measures the percentage of your gross monthly income that goes toward debt payments. Lenders use DTI to assess your ability to manage monthly payments and repay borrowed money.</p>
+                    <p>Front-end DTI includes only housing costs (mortgage, taxes, insurance), while back-end DTI includes all monthly debt obligations. Most lenders prefer a back-end DTI below 43%, with 36% or lower considered excellent.</p>
+                    <p>Improving your DTI involves increasing income or decreasing debt. Pay off high-interest debts first, avoid taking on new debt, and consider increasing your income through side jobs or career advancement.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateDTI();
+    </script>
+</body>
+</html>

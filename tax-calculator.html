@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tax Calculator - Tax Estimator | CD Calculator</title>
+    <meta name="description" content="Free income tax calculator. Estimate federal taxes, calculate take-home pay, and see effective tax rate.">
+    <meta name="keywords" content="tax calculator, income tax calculator, tax estimator, take home pay calculator">
+    <link rel="canonical" href="https://cdcalculator.github.io/tax-calculator.html">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Income Tax Calculator",
+      "applicationCategory": "FinanceApplication",
+      "description": "Calculate income tax, deductions, and take-home pay. Estimate federal tax liability and effective tax rate.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Federal tax calculation, Deduction tracking, Take-home pay estimation, Effective tax rate analysis"
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
+        <div class="calculator-page">
+            <div class="calculator-header">
+                <h1 class="calculator-title">INCOME TAX CALCULATOR</h1>
+                <p class="calculator-description">Estimate your income tax and take-home pay</p>
+            </div>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="annualIncome">Annual Income ($)</label>
+                        <input type="number" id="annualIncome" value="75000" min="0" step="1000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="filingStatus">Filing Status</label>
+                        <select id="filingStatus">
+                            <option value="single" selected>Single</option>
+                            <option value="married">Married Filing Jointly</option>
+                            <option value="head">Head of Household</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deductions">Standard Deduction ($)</label>
+                        <input type="number" id="deductions" value="13850" min="0" step="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="stateRate">State Tax Rate (%)</label>
+                        <input type="number" id="stateRate" value="5" min="0" max="15" step="0.1">
+                    </div>
+                    
+                    <button class="calculate-button" onclick="calculateTax()">CALCULATE</button>
+                </div>
+                
+                <div class="calculator-results">
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Federal Tax</div>
+                        <div class="result-value" id="federalTax">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-red)">
+                        <div class="result-label">Total Tax</div>
+                        <div class="result-value" id="totalTax">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Take-Home Pay</div>
+                        <div class="result-value" id="takeHomePay">$0</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <h3>Tax Summary</h3>
+                        <div class="breakdown-item">
+                            <span>Taxable Income:</span>
+                            <span id="taxableIncome">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Effective Tax Rate:</span>
+                            <span id="effectiveTaxRate">0%</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Monthly Take-Home:</span>
+                            <span id="monthlyTakeHome">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-sections">
+                <div class="info-card" style="--card-color: var(--color-blue)">
+                    <h2>How to Use the Tax Calculator</h2>
+                    <ol>
+                        <li>Enter your annual gross income</li>
+                        <li>Select your tax filing status</li>
+                        <li>Input standard deduction amount</li>
+                        <li>Add your state tax rate</li>
+                        <li>Click "Calculate" to see tax estimates</li>
+                    </ol>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Federal income tax calculation</li>
+                        <li>State tax estimation</li>
+                        <li>Multiple filing status support</li>
+                        <li>Standard deduction application</li>
+                        <li>Effective tax rate calculation</li>
+                        <li>Monthly take-home pay breakdown</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>About Income Taxes</h2>
+                    <p>Income tax is calculated on your taxable income, which is your gross income minus deductions. The U.S. uses a progressive tax system with marginal tax brackets, meaning different portions of your income are taxed at different rates.</p>
+                    <p>Standard deductions vary by filing status: Single ($13,850), Married Filing Jointly ($27,700), and Head of Household ($20,800) for 2023. You can choose standard or itemized deductions, whichever is higher.</p>
+                    <p>Your effective tax rate is the average rate you pay on all your income, which is lower than your marginal rate. Understanding your tax liability helps with financial planning and retirement savings strategies.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateTax();
+    </script>
+</body>
+</html>

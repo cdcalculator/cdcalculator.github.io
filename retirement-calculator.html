@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retirement Calculator - Plan Your Retirement Savings | CD Calculator</title>
+    <meta name="description" content="Free retirement calculator. Plan your retirement savings, calculate how much you need to save, and estimate your retirement income.">
+    <meta name="keywords" content="retirement calculator, retirement savings calculator, retirement planning, 401k calculator">
+    <link rel="canonical" href="https://cdcalculator.github.io/retirement-calculator.html">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Retirement Calculator",
+      "applicationCategory": "FinanceApplication",
+      "description": "Plan your retirement with detailed savings calculations. Estimate retirement income and determine monthly savings needed.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Retirement savings projection, Monthly contribution calculation, Investment growth tracking, Age-based planning"
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
+        <div class="calculator-page">
+            <div class="calculator-header">
+                <h1 class="calculator-title">RETIREMENT CALCULATOR</h1>
+                <p class="calculator-description">Plan your retirement savings and estimate your future income</p>
+            </div>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="currentAge">Current Age</label>
+                        <input type="number" id="currentAge" value="30" min="18" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="retirementAge">Retirement Age</label>
+                        <input type="number" id="retirementAge" value="65" min="50" max="80">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="currentSavings">Current Savings ($)</label>
+                        <input type="number" id="currentSavings" value="50000" min="0" step="1000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="monthlyContribution">Monthly Contribution ($)</label>
+                        <input type="number" id="monthlyContribution" value="500" min="0" step="50">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="returnRate">Expected Return Rate (%)</label>
+                        <input type="number" id="returnRate" value="7" min="0" max="20" step="0.5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inflationRate">Inflation Rate (%)</label>
+                        <input type="number" id="inflationRate" value="2.5" min="0" max="10" step="0.1">
+                    </div>
+                    
+                    <button class="calculate-button" onclick="calculateRetirement()">CALCULATE</button>
+                </div>
+                
+                <div class="calculator-results">
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Retirement Savings</div>
+                        <div class="result-value" id="retirementSavings">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Total Contributions</div>
+                        <div class="result-value" id="totalContributions">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">Investment Gains</div>
+                        <div class="result-value" id="investmentGains">$0</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <h3>Retirement Summary</h3>
+                        <div class="breakdown-item">
+                            <span>Years Until Retirement:</span>
+                            <span id="yearsToRetirement">0 years</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Real Value (Inflation Adjusted):</span>
+                            <span id="realValue">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Monthly Retirement Income:</span>
+                            <span id="monthlyIncome">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-sections">
+                <div class="info-card" style="--card-color: var(--color-blue)">
+                    <h2>How to Use the Retirement Calculator</h2>
+                    <ol>
+                        <li>Enter your current age and planned retirement age</li>
+                        <li>Input your current retirement savings balance</li>
+                        <li>Enter your planned monthly contribution</li>
+                        <li>Set your expected annual return rate</li>
+                        <li>Adjust the inflation rate (default 2.5%)</li>
+                        <li>Click "Calculate" to see your retirement projections</li>
+                    </ol>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Comprehensive retirement savings projection</li>
+                        <li>Inflation-adjusted real value calculations</li>
+                        <li>Monthly retirement income estimates</li>
+                        <li>Total contributions tracking</li>
+                        <li>Investment growth visualization</li>
+                        <li>Years until retirement countdown</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>About Retirement Planning</h2>
+                    <p>Retirement planning is crucial for ensuring financial security in your later years. This calculator helps you project how much money you'll have saved by retirement based on your current savings, monthly contributions, and expected investment returns.</p>
+                    <p>The calculator accounts for inflation, which erodes purchasing power over time. The "real value" shows what your retirement savings will be worth in today's dollars. A 7% return rate is historically average for diversified stock portfolios, while 2.5% inflation represents long-term averages.</p>
+                    <p>Financial experts recommend saving 15-20% of your income for retirement. The earlier you start saving, the more time compound interest has to work in your favor. Consider maximizing employer 401(k) matches and contributing to IRAs for tax advantages.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateRetirement();
+    </script>
+</body>
+</html>

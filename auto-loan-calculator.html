@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Loan Calculator - Car Payment Calculator | CD Calculator</title>
+    <meta name="description" content="Free auto loan calculator. Calculate car payments, total interest, and see your complete auto loan amortization schedule.">
+    <meta name="keywords" content="auto loan calculator, car payment calculator, vehicle loan calculator, car finance calculator">
+    <link rel="canonical" href="https://cdcalculator.github.io/auto-loan-calculator.html">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Auto Loan Calculator",
+      "applicationCategory": "FinanceApplication",
+      "description": "Calculate auto loan payments with trade-in value, down payment, and taxes. Get complete payment breakdown and amortization details.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Monthly payment calculation, Trade-in value inclusion, Tax and fees calculation, Total interest tracking"
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    
+    <main class="main-container">
+        <div class="calculator-page">
+            <div class="calculator-header">
+                <h1 class="calculator-title">AUTO LOAN CALCULATOR</h1>
+                <p class="calculator-description">Calculate your car loan payments and total cost</p>
+            </div>
+            
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="carPrice">Vehicle Price ($)</label>
+                        <input type="number" id="carPrice" value="35000" min="0" step="500">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="downPayment">Down Payment ($)</label>
+                        <input type="number" id="downPayment" value="5000" min="0" step="500">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tradeIn">Trade-In Value ($)</label>
+                        <input type="number" id="tradeIn" value="0" min="0" step="500">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="salesTax">Sales Tax (%)</label>
+                        <input type="number" id="salesTax" value="7" min="0" max="15" step="0.1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interestRate">Interest Rate (%)</label>
+                        <input type="number" id="interestRate" value="5.5" min="0" max="25" step="0.1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loanTerm">Loan Term (months)</label>
+                        <select id="loanTerm">
+                            <option value="36">36 months</option>
+                            <option value="48">48 months</option>
+                            <option value="60" selected>60 months</option>
+                            <option value="72">72 months</option>
+                            <option value="84">84 months</option>
+                        </select>
+                    </div>
+                    
+                    <button class="calculate-button" onclick="calculateAutoLoan()">CALCULATE</button>
+                </div>
+                
+                <div class="calculator-results">
+                    <div class="result-card" style="--card-color: var(--color-blue)">
+                        <div class="result-label">Monthly Payment</div>
+                        <div class="result-value" id="monthlyPayment">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-green)">
+                        <div class="result-label">Total Interest</div>
+                        <div class="result-value" id="totalInterest">$0</div>
+                    </div>
+                    
+                    <div class="result-card" style="--card-color: var(--color-purple)">
+                        <div class="result-label">Total Loan Cost</div>
+                        <div class="result-value" id="totalCost">$0</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <h3>Loan Summary</h3>
+                        <div class="breakdown-item">
+                            <span>Loan Amount:</span>
+                            <span id="loanAmount">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Sales Tax:</span>
+                            <span id="taxAmount">$0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Total Amount Financed:</span>
+                            <span id="amountFinanced">$0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-sections">
+                <div class="info-card" style="--card-color: var(--color-blue)">
+                    <h2>How to Use the Auto Loan Calculator</h2>
+                    <ol>
+                        <li>Enter the vehicle purchase price</li>
+                        <li>Input your down payment amount</li>
+                        <li>Add trade-in value if applicable</li>
+                        <li>Enter your local sales tax rate</li>
+                        <li>Input the loan interest rate</li>
+                        <li>Select your desired loan term</li>
+                        <li>Click "Calculate" to see your payment details</li>
+                    </ol>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-green)">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Accurate monthly payment calculations</li>
+                        <li>Trade-in value integration</li>
+                        <li>Sales tax and fees inclusion</li>
+                        <li>Multiple loan term options</li>
+                        <li>Total interest cost breakdown</li>
+                        <li>Complete loan summary</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>About Auto Loans</h2>
+                    <p>Auto loans are secured loans used to purchase vehicles. The car serves as collateral, which typically results in lower interest rates compared to unsecured loans. Most auto loans range from 36 to 72 months, with longer terms resulting in lower monthly payments but higher total interest costs.</p>
+                    <p>A larger down payment reduces your loan amount and can help you secure better interest rates. Your credit score significantly impacts the interest rate you'll receive - excellent credit can save thousands in interest over the life of the loan.</p>
+                    <p>Consider the total cost of ownership beyond the monthly payment, including insurance, maintenance, and fuel costs. A good rule of thumb is to keep your total vehicle expenses under 20% of your monthly income.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="app.js"></script>
+    <script src="calculators.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('sidebar.html', 'sidebar-container');
+        loadComponent('footer.html', 'footer-container');
+        calculateAutoLoan();
+    </script>
+</body>
+</html>

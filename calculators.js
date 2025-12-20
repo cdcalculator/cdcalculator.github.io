@@ -107,6 +107,347 @@ function calculateSavings() {
   document.getElementById("totalInterest").textContent = formatCurrency(totalInterest)
 }
 
+// CD Calculator
+function calculateCD() {
+  const deposit = Number.parseFloat(document.getElementById("depositAmount").value) || 0
+  const term = Number.parseInt(document.getElementById("cdTerm").value) || 12
+  const rate = Number.parseFloat(document.getElementById("interestRate").value) || 0
+  const frequency = Number.parseInt(document.getElementById("compounding").value) || 12
+
+  const years = term / 12
+  const n = frequency
+  const r = rate / 100
+
+  // Compound interest formula: A = P(1 + r/n)^(nt)
+  const finalBalance = deposit * Math.pow(1 + r / n, n * years)
+  const interestEarned = finalBalance - deposit
+
+  // Calculate APY
+  const apy = (Math.pow(1 + r / n, n) - 1) * 100
+
+  // Calculate maturity date
+  const today = new Date()
+  const maturityDate = new Date(today.setMonth(today.getMonth() + term))
+
+  document.getElementById("finalBalance").textContent = formatCurrency(finalBalance)
+  document.getElementById("interestEarned").textContent = formatCurrency(interestEarned)
+  document.getElementById("apy").textContent = apy.toFixed(2) + "%"
+  document.getElementById("principalAmount").textContent = formatCurrency(deposit)
+  document.getElementById("termLength").textContent = term + " months"
+  document.getElementById("maturityDate").textContent = maturityDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
+}
+
+// Retirement Calculator
+function calculateRetirement() {
+  const currentAge = Number.parseInt(document.getElementById("currentAge").value) || 30
+  const retirementAge = Number.parseInt(document.getElementById("retirementAge").value) || 65
+  const currentSavings = Number.parseFloat(document.getElementById("currentSavings").value) || 0
+  const monthlyContrib = Number.parseFloat(document.getElementById("monthlyContribution").value) || 0
+  const returnRate = Number.parseFloat(document.getElementById("returnRate").value) || 7
+  const inflationRate = Number.parseFloat(document.getElementById("inflationRate").value) || 2.5
+
+  const yearsToRetirement = retirementAge - currentAge
+  const months = yearsToRetirement * 12
+  const monthlyRate = returnRate / 100 / 12
+
+  // Future value calculation
+  const fvInitial = currentSavings * Math.pow(1 + monthlyRate, months)
+  const fvContributions = monthlyContrib * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate)
+  const totalSavings = fvInitial + fvContributions
+
+  const totalContributions = currentSavings + monthlyContrib * months
+  const investmentGains = totalSavings - totalContributions
+
+  // Inflation adjustment
+  const realValue = totalSavings / Math.pow(1 + inflationRate / 100, yearsToRetirement)
+
+  // Estimated monthly income (4% rule)
+  const monthlyIncome = (totalSavings * 0.04) / 12
+
+  document.getElementById("retirementSavings").textContent = formatCurrency(totalSavings)
+  document.getElementById("totalContributions").textContent = formatCurrency(totalContributions)
+  document.getElementById("investmentGains").textContent = formatCurrency(investmentGains)
+  document.getElementById("yearsToRetirement").textContent = yearsToRetirement + " years"
+  document.getElementById("realValue").textContent = formatCurrency(realValue)
+  document.getElementById("monthlyIncome").textContent = formatCurrency(monthlyIncome)
+}
+
+// Compound Interest Calculator
+function calculateCompound() {
+  const principal = Number.parseFloat(document.getElementById("principal").value) || 0
+  const contribution = Number.parseFloat(document.getElementById("contribution").value) || 0
+  const contributionFreq = Number.parseInt(document.getElementById("contributionFreq").value) || 12
+  const rate = Number.parseFloat(document.getElementById("rate").value) || 0
+  const years = Number.parseFloat(document.getElementById("years").value) || 0
+  const compoundFreq = Number.parseInt(document.getElementById("compoundFreq").value) || 12
+
+  const r = rate / 100
+  const n = compoundFreq
+  const t = years
+
+  // Future value of principal
+  const fvPrincipal = principal * Math.pow(1 + r / n, n * t)
+
+  // Future value of contributions (using PMT formula)
+  const contributionPerYear = contribution * contributionFreq
+  const monthlyRate = r / n
+  const totalPeriods = n * t
+  const fvContributions =
+    (contributionPerYear * ((Math.pow(1 + monthlyRate, totalPeriods) - 1) / monthlyRate)) / contributionFreq
+
+  const futureValue = fvPrincipal + fvContributions
+  const totalContributed = principal + contribution * contributionFreq * years
+  const totalInterest = futureValue - totalContributed
+
+  // Effective annual rate
+  const effectiveRate = (Math.pow(1 + r / n, n) - 1) * 100
+
+  document.getElementById("futureValue").textContent = formatCurrency(futureValue)
+  document.getElementById("totalPrincipal").textContent = formatCurrency(totalContributed)
+  document.getElementById("totalInterestEarned").textContent = formatCurrency(totalInterest)
+  document.getElementById("initialInv").textContent = formatCurrency(principal)
+  document.getElementById("contribTotal").textContent = formatCurrency(contribution * contributionFreq * years)
+  document.getElementById("effectiveRate").textContent = effectiveRate.toFixed(2) + "%"
+}
+
+// Auto Loan Calculator
+function calculateAutoLoan() {
+  const carPrice = Number.parseFloat(document.getElementById("carPrice").value) || 0
+  const downPayment = Number.parseFloat(document.getElementById("downPayment").value) || 0
+  const tradeIn = Number.parseFloat(document.getElementById("tradeIn").value) || 0
+  const salesTax = Number.parseFloat(document.getElementById("salesTax").value) || 0
+  const rate = Number.parseFloat(document.getElementById("interestRate").value) || 0
+  const term = Number.parseInt(document.getElementById("loanTerm").value) || 60
+
+  const taxAmount = carPrice * (salesTax / 100)
+  const loanAmount = carPrice - downPayment - tradeIn
+  const amountFinanced = loanAmount + taxAmount
+
+  const monthlyRate = rate / 100 / 12
+  const monthlyPayment =
+    (amountFinanced * (monthlyRate * Math.pow(1 + monthlyRate, term))) / (Math.pow(1 + monthlyRate, term) - 1)
+
+  const totalCost = monthlyPayment * term
+  const totalInterest = totalCost - amountFinanced
+
+  document.getElementById("monthlyPayment").textContent = formatCurrency(monthlyPayment)
+  document.getElementById("totalInterest").textContent = formatCurrency(totalInterest)
+  document.getElementById("totalCost").textContent = formatCurrency(totalCost)
+  document.getElementById("loanAmount").textContent = formatCurrency(loanAmount)
+  document.getElementById("taxAmount").textContent = formatCurrency(taxAmount)
+  document.getElementById("amountFinanced").textContent = formatCurrency(amountFinanced)
+}
+
+// Budget Calculator
+function calculateBudget() {
+  const salary = Number.parseFloat(document.getElementById("salary").value) || 0
+  const otherIncome = Number.parseFloat(document.getElementById("otherIncome").value) || 0
+  const housing = Number.parseFloat(document.getElementById("housing").value) || 0
+  const utilities = Number.parseFloat(document.getElementById("utilities").value) || 0
+  const food = Number.parseFloat(document.getElementById("food").value) || 0
+  const transportation = Number.parseFloat(document.getElementById("transportation").value) || 0
+  const entertainment = Number.parseFloat(document.getElementById("entertainment").value) || 0
+  const otherExpenses = Number.parseFloat(document.getElementById("otherExpenses").value) || 0
+
+  const totalIncome = salary + otherIncome
+  const totalExpenses = housing + utilities + food + transportation + entertainment + otherExpenses
+  const netBalance = totalIncome - totalExpenses
+
+  const savingsRate = totalIncome > 0 ? (netBalance / totalIncome) * 100 : 0
+  const housingRatio = totalIncome > 0 ? (housing / totalIncome) * 100 : 0
+
+  let status = "Balanced"
+  if (netBalance > 0) status = "Surplus"
+  if (netBalance < 0) status = "Deficit"
+
+  document.getElementById("totalIncome").textContent = formatCurrency(totalIncome)
+  document.getElementById("totalExpenses").textContent = formatCurrency(totalExpenses)
+  document.getElementById("netBalance").textContent = formatCurrency(netBalance)
+  document.getElementById("savingsRate").textContent = savingsRate.toFixed(1) + "%"
+  document.getElementById("housingRatio").textContent = housingRatio.toFixed(1) + "%"
+  document.getElementById("budgetStatus").textContent = status
+}
+
+// Credit Card Payoff Calculator
+function calculateCreditCard() {
+  const balance = Number.parseFloat(document.getElementById("balance").value) || 0
+  const apr = Number.parseFloat(document.getElementById("apr").value) || 0
+  const monthlyPayment = Number.parseFloat(document.getElementById("monthlyPayment").value) || 0
+
+  const monthlyRate = apr / 100 / 12
+
+  let remainingBalance = balance
+  let months = 0
+  let totalInterest = 0
+  const maxMonths = 600
+
+  while (remainingBalance > 0 && months < maxMonths) {
+    const interestCharge = remainingBalance * monthlyRate
+    totalInterest += interestCharge
+    remainingBalance = remainingBalance + interestCharge - monthlyPayment
+    months++
+
+    if (monthlyPayment <= interestCharge) {
+      months = maxMonths
+      break
+    }
+  }
+
+  const totalPaid = balance + totalInterest
+  const interestRatio = balance > 0 ? (totalInterest / balance) * 100 : 0
+
+  const today = new Date()
+  const debtFreeDate = new Date(today.setMonth(today.getMonth() + months))
+
+  document.getElementById("payoffTime").textContent = months + " months"
+  document.getElementById("totalInterest").textContent = formatCurrency(totalInterest)
+  document.getElementById("totalPaid").textContent = formatCurrency(totalPaid)
+  document.getElementById("debtFreeDate").textContent = debtFreeDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+  })
+  document.getElementById("monthlyRate").textContent = (monthlyRate * 100).toFixed(2) + "%"
+  document.getElementById("interestRatio").textContent = interestRatio.toFixed(1) + "%"
+}
+
+// ROI Calculator
+function calculateROI() {
+  const initialInvestment = Number.parseFloat(document.getElementById("initialInvestment").value) || 0
+  const finalValue = Number.parseFloat(document.getElementById("finalValue").value) || 0
+  const additionalCosts = Number.parseFloat(document.getElementById("additionalCosts").value) || 0
+  const years = Number.parseFloat(document.getElementById("investmentPeriod").value) || 1
+
+  const totalInvestment = initialInvestment + additionalCosts
+  const investmentGain = finalValue - totalInvestment
+  const roiPercent = totalInvestment > 0 ? (investmentGain / totalInvestment) * 100 : 0
+
+  const annualizedReturn =
+    totalInvestment > 0 && years > 0 ? (Math.pow(finalValue / totalInvestment, 1 / years) - 1) * 100 : 0
+
+  let performance = "Break Even"
+  if (roiPercent > 10) performance = "Excellent"
+  else if (roiPercent > 5) performance = "Good"
+  else if (roiPercent > 0) performance = "Positive"
+  else if (roiPercent < 0) performance = "Loss"
+
+  document.getElementById("roiPercent").textContent = roiPercent.toFixed(2) + "%"
+  document.getElementById("investmentGain").textContent = formatCurrency(investmentGain)
+  document.getElementById("annualizedReturn").textContent = annualizedReturn.toFixed(2) + "%"
+  document.getElementById("totalInvested").textContent = formatCurrency(totalInvestment)
+  document.getElementById("netProfit").textContent = formatCurrency(investmentGain)
+  document.getElementById("performance").textContent = performance
+}
+
+// Student Loan Calculator
+function calculateStudentLoan() {
+  const loanAmount = Number.parseFloat(document.getElementById("loanAmount").value) || 0
+  const rate = Number.parseFloat(document.getElementById("interestRate").value) || 0
+  const term = Number.parseInt(document.getElementById("loanTerm").value) || 10
+  const gracePeriod = Number.parseInt(document.getElementById("gracePeriod").value) || 6
+
+  const monthlyRate = rate / 100 / 12
+  const numberOfPayments = term * 12
+
+  const monthlyPayment =
+    (loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments))) /
+    (Math.pow(1 + monthlyRate, numberOfPayments) - 1)
+
+  const totalRepaid = monthlyPayment * numberOfPayments
+  const totalInterest = totalRepaid - loanAmount
+
+  const graceInterest = loanAmount * monthlyRate * gracePeriod
+
+  const today = new Date()
+  const firstPaymentDate = new Date(today.setMonth(today.getMonth() + gracePeriod))
+  const payoffDate = new Date(firstPaymentDate)
+  payoffDate.setMonth(payoffDate.getMonth() + numberOfPayments)
+
+  document.getElementById("monthlyPayment").textContent = formatCurrency(monthlyPayment)
+  document.getElementById("totalInterest").textContent = formatCurrency(totalInterest)
+  document.getElementById("totalRepaid").textContent = formatCurrency(totalRepaid)
+  document.getElementById("firstPayment").textContent = firstPaymentDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+  })
+  document.getElementById("payoffDate").textContent = payoffDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+  })
+  document.getElementById("graceInterest").textContent = formatCurrency(graceInterest)
+}
+
+// Tax Calculator
+function calculateTax() {
+  const annualIncome = Number.parseFloat(document.getElementById("annualIncome").value) || 0
+  const deductions = Number.parseFloat(document.getElementById("deductions").value) || 0
+  const stateRate = Number.parseFloat(document.getElementById("stateRate").value) || 0
+
+  const taxableIncome = Math.max(0, annualIncome - deductions)
+
+  // Simplified 2023 federal tax brackets (single filer)
+  let federalTax = 0
+  if (taxableIncome > 578125) {
+    federalTax = 174238.25 + (taxableIncome - 578125) * 0.37
+  } else if (taxableIncome > 231250) {
+    federalTax = 52832.75 + (taxableIncome - 231250) * 0.35
+  } else if (taxableIncome > 182100) {
+    federalTax = 37104 + (taxableIncome - 182100) * 0.32
+  } else if (taxableIncome > 95375) {
+    federalTax = 16290 + (taxableIncome - 95375) * 0.24
+  } else if (taxableIncome > 44725) {
+    federalTax = 5147 + (taxableIncome - 44725) * 0.22
+  } else if (taxableIncome > 11000) {
+    federalTax = 1100 + (taxableIncome - 11000) * 0.12
+  } else {
+    federalTax = taxableIncome * 0.1
+  }
+
+  const stateTax = annualIncome * (stateRate / 100)
+  const totalTax = federalTax + stateTax
+  const takeHomePay = annualIncome - totalTax
+  const effectiveTaxRate = annualIncome > 0 ? (totalTax / annualIncome) * 100 : 0
+  const monthlyTakeHome = takeHomePay / 12
+
+  document.getElementById("federalTax").textContent = formatCurrency(federalTax)
+  document.getElementById("totalTax").textContent = formatCurrency(totalTax)
+  document.getElementById("takeHomePay").textContent = formatCurrency(takeHomePay)
+  document.getElementById("taxableIncome").textContent = formatCurrency(taxableIncome)
+  document.getElementById("effectiveTaxRate").textContent = effectiveTaxRate.toFixed(1) + "%"
+  document.getElementById("monthlyTakeHome").textContent = formatCurrency(monthlyTakeHome)
+}
+
+// DTI Calculator
+function calculateDTI() {
+  const grossIncome = Number.parseFloat(document.getElementById("grossIncome").value) || 0
+  const mortgageRent = Number.parseFloat(document.getElementById("mortgageRent").value) || 0
+  const carPayment = Number.parseFloat(document.getElementById("carPayment").value) || 0
+  const creditCards = Number.parseFloat(document.getElementById("creditCards").value) || 0
+  const otherDebts = Number.parseFloat(document.getElementById("otherDebts").value) || 0
+
+  const totalDebts = mortgageRent + carPayment + creditCards + otherDebts
+  const frontEndDTI = grossIncome > 0 ? (mortgageRent / grossIncome) * 100 : 0
+  const backEndDTI = grossIncome > 0 ? (totalDebts / grossIncome) * 100 : 0
+
+  let qualification = "Excellent"
+  if (backEndDTI > 50) qualification = "Poor"
+  else if (backEndDTI > 43) qualification = "Fair"
+  else if (backEndDTI > 36) qualification = "Good"
+
+  const availableIncome = grossIncome - totalDebts
+  const debtCapacity = grossIncome * 0.36 - totalDebts
+
+  document.getElementById("frontEndDTI").textContent = frontEndDTI.toFixed(1) + "%"
+  document.getElementById("backEndDTI").textContent = backEndDTI.toFixed(1) + "%"
+  document.getElementById("qualification").textContent = qualification
+  document.getElementById("totalDebts").textContent = formatCurrency(totalDebts)
+  document.getElementById("availableIncome").textContent = formatCurrency(availableIncome)
+  document.getElementById("debtCapacity").textContent = formatCurrency(Math.max(0, debtCapacity))
+}
+
 // Helper function - already defined in app.js but included here for calculator pages
 function formatCurrency(value) {
   return new Intl.NumberFormat("en-US", {
