@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - CD Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "CD Calculator",
+        "description": "A platform providing free, instant, and private financial calculators."
+      }
+    }
+    </script>
+</head>
+<body>
+    <div id="header-container"></div>
+    <main class="main-container">
+        <section class="page-hero">
+            <h1 class="page-title">ABOUT US</h1>
+            <p class="page-subtitle">Empowering your financial decisions with precision.</p>
+        </section>
+
+        <section class="calculator-page">
+            <div class="info-sections">
+                <div class="info-card" style="--card-color: var(--color-blue)">
+                    <h2>Our Mission</h2>
+                    <p>At CD Calculator, our mission is to simplify complex financial planning. We believe that everyone should have access to high-quality tools to manage their mortgage, investments, and savings without any barriers.</p>
+                </div>
+                <div class="info-card" style="--card-color: var(--color-green)">
+                    <h2>Privacy First</h2>
+                    <p>Unlike many financial tools, we do not store your data. All calculations are performed locally in your browser, ensuring your financial information remains 100% private.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="footer-container"></div>
+    <script src="app.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('footer.html', 'footer-container');
+    </script>
+</body>
+</html>
