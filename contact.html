@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - CD Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "mainEntity": {
+        "@type": "Organization",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "nolushac@gmail.com",
+          "contactType": "customer support"
+        }
+      }
+    }
+    </script>
+</head>
+<body>
+    <div id="header-container"></div>
+    <main class="main-container">
+        <section class="page-hero">
+            <h1 class="page-title">CONTACT US</h1>
+            <p class="page-subtitle">Have questions? We are here to help.</p>
+        </section>
+
+        <section class="calculator-page">
+            <div class="calculator-layout">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <p><strong>nolushac@gmail.com</strong></p>
+                    </div>
+                    <p>For support, feedback, or business inquiries, please reach out to us via email. We typically respond within 24-48 hours.</p>
+                </div>
+                <div class="info-card" style="--card-color: var(--color-pink)">
+                    <h2>Support</h2>
+                    <p>Need help with a specific calculator? Mention the calculator name in your email subject line for faster assistance.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="footer-container"></div>
+    <script src="app.js"></script>
+    <script>
+        loadComponent('header.html', 'header-container');
+        loadComponent('footer.html', 'footer-container');
+    </script>
+</body>
+</html>
